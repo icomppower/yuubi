@@ -3,462 +3,314 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yuubi | Japanese Restaurant — Inner Richmond, San Francisco</title>
-<meta name="description" content="Yuubi Japanese Restaurant — neighborhood sushi bar in Inner Richmond, San Francisco. Aged o-toro, house curry, and chef's selection don.">
+<title>Yuubi — 18-Day Aged Bluefin, Inner Richmond</title>
+<meta name="description" content="Yuubi — an eighteen-day aged bluefin omakase counter in Inner Richmond, San Francisco. Twelve seats, one counter, no hurry.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#faf7f2;
-    --paper-alt:#f2ede4;
-    --ink:#2b2925;
-    --ink-soft:#5a564e;
-    --sage:#8a9a82;
-    --sage-deep:#6b7d63;
-    --terracotta:#c17a5d;
-    --terracotta-deep:#a8613f;
-    --line:#e2dcd1;
-    --max:1160px;
+    --bg:#DED6C3; --dark:#241D14;
+    --ink:#2B2216; --ink-light:#D8CFBB;
+    --muted:#4A4234; --muted-dark:#B5AA92;
+    --label:#7A6F5B; --label-dark:#8A7E66;
+    --line:#C2B79E; --line-dark:#3A3226; --line-dark2:#4A4234;
+    --accent:#5E3229;
+    --max:1400px;
   }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);}
   body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight:300;
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
+    font-family:'Archivo',sans-serif;color:var(--ink);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+    min-height:100vh;
   }
-  h1,h2,h3,.brand{
-    font-family:'Zen Old Mincho', serif;
-    font-weight:600;
-    letter-spacing:.02em;
-  }
-  a{color:inherit;text-decoration:none;}
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{color:var(--ink);}
+  ::selection{background:var(--accent);color:var(--bg);}
   img{max-width:100%;display:block;}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
-  section{padding:96px 0;}
+  .serif{font-family:'Instrument Serif',serif;font-weight:400;}
+  .kanji{font-family:'Shippori Mincho',serif;font-weight:500;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 48px;}
 
-  /* header */
-  header{
-    position:sticky;top:0;z-index:50;
-    background:rgba(250,247,242,.92);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
+  .grain{
+    position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.38 0 0 0 0 0.30 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:var(--max);margin:0 auto;}
-  .brand{font-size:1.5rem;color:var(--ink);display:flex;align-items:baseline;gap:8px;}
-  .brand span{font-family:'Noto Sans JP',sans-serif;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--sage-deep);font-weight:500;}
-  nav ul{display:flex;gap:38px;list-style:none;}
-  nav ul li a{font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);transition:color .2s;}
-  nav ul li a:hover{color:var(--terracotta-deep);}
+
+  header{
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding:28px 48px;border-bottom:1px solid var(--line);
+  }
+  .brand-row{display:flex;align-items:baseline;gap:14px;}
+  .brand{font-size:28px;letter-spacing:-.02em;}
+  .brand-kanji{font-size:14px;color:var(--label);}
+  nav{display:flex;gap:36px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;}
+  nav a{color:var(--ink);}
+  nav a.reserve{color:var(--accent);border-bottom:1px solid var(--accent);padding-bottom:2px;}
   .nav-toggle{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);}
 
-  /* hero */
-  .hero{
-    position:relative;
-    min-height:88vh;
-    display:flex;
-    align-items:center;
-    background:
-      radial-gradient(circle at 85% 15%, rgba(193,122,93,.14), transparent 55%),
-      radial-gradient(circle at 10% 85%, rgba(138,154,130,.18), transparent 55%),
-      var(--paper);
-    overflow:hidden;
-    padding:64px 0;
+  .hero{padding:120px 48px 100px;position:relative;}
+  .hero-meta-row{
+    display:flex;justify-content:space-between;font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--label);margin-bottom:56px;flex-wrap:wrap;gap:10px;
   }
-  .hero::before{
-    content:"";
-    position:absolute;inset:0;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:64px 64px;
-    opacity:.35;
-    mask-image:linear-gradient(to bottom, black, transparent 75%);
+  .hero h1{
+    font-size:clamp(40px,9.5vw,148px);line-height:.98;letter-spacing:-.05em;margin:0;
+    max-width:16ch;text-wrap:balance;
   }
-  .hero-inner{
-    position:relative;max-width:var(--max);margin:0 auto;padding:0 28px;width:100%;
-    display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;
+  .hero-bottom{
+    display:flex;align-items:flex-end;justify-content:space-between;margin-top:72px;
+    gap:48px;flex-wrap:wrap;
   }
-  .hero-kicker{
-    font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;
-    color:var(--terracotta-deep);margin-bottom:22px;font-weight:500;
-  }
-  .hero h1{font-size:clamp(2.4rem,4.6vw,3.8rem);line-height:1.14;color:var(--ink);}
-  .hero h1 em{font-style:normal;color:var(--sage-deep);}
-  .hero p{margin-top:26px;max-width:480px;color:var(--ink-soft);font-size:1.05rem;}
-  .hero-actions{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
-  .hero-photo{
-    position:relative;border-radius:2px;overflow:hidden;
-    aspect-ratio:4/5;box-shadow:0 30px 60px -25px rgba(43,41,37,.35);
-  }
-  .hero-photo img{width:100%;height:100%;object-fit:cover;}
-  .hero-photo::after{
-    content:"";position:absolute;inset:0;border:1px solid rgba(250,247,242,.25);
-    pointer-events:none;
-  }
-  .btn{
-    display:inline-flex;align-items:center;gap:10px;
-    padding:14px 30px;border-radius:2px;
-    font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
-    transition:all .25s;border:1px solid transparent;
-  }
-  .btn-primary{background:var(--terracotta);color:#fff;}
-  .btn-primary:hover{background:var(--terracotta-deep);}
-  .btn-ghost{border-color:var(--ink);color:var(--ink);}
-  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
-  .hero-meta{
-    display:flex;gap:48px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);
-    flex-wrap:wrap;
-  }
-  .hero-meta div{font-size:.82rem;}
-  .hero-meta .label{display:block;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-deep);font-size:.68rem;margin-bottom:6px;}
-
-  /* section headers */
-  .section-head{margin-bottom:56px;max-width:640px;}
-  .section-kicker{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--terracotta-deep);margin-bottom:14px;font-weight:500;}
-  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem);color:var(--ink);}
-  .section-head p{margin-top:16px;color:var(--ink-soft);}
-
-  /* signature */
-  .signature{background:var(--paper-alt);}
-  .sig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--line);border:1px solid var(--line);}
-  .sig-card{background:var(--paper);padding:52px;position:relative;}
-  .sig-num{font-family:'Zen Old Mincho',serif;font-size:.85rem;color:var(--sage-deep);letter-spacing:.1em;}
-  .sig-card h3{font-size:1.7rem;margin:18px 0 14px;color:var(--ink);}
-  .sig-card p{color:var(--ink-soft);font-size:.95rem;max-width:400px;}
-  .sig-tag{
-    display:inline-block;margin-top:22px;font-size:.72rem;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--terracotta-deep);border-top:1px solid var(--line);padding-top:16px;
+  .hero-bottom p{font-size:16px;line-height:1.7;color:var(--muted);max-width:44ch;margin:0;}
+  .hero-addr{
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);
+    text-align:right;line-height:2;
   }
 
-  /* menu */
-  .menu-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:44px;border-bottom:1px solid var(--line);padding-bottom:0;}
-  .menu-tab{
-    background:none;border:none;cursor:pointer;
-    padding:12px 4px;margin-right:32px;
-    font-family:'Noto Sans JP',sans-serif;font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;
-    color:var(--ink-soft);position:relative;transition:color .2s;
-  }
-  .menu-tab::after{
-    content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--terracotta);
-    transform:scaleX(0);transition:transform .25s;transform-origin:left;
-  }
-  .menu-tab.active{color:var(--ink);}
-  .menu-tab.active::after{transform:scaleX(1);}
-  .menu-panel{display:none;}
-  .menu-panel.active{display:block;animation:fade .4s ease;}
-  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-  .menu-list{display:grid;gap:0;}
-  .menu-item{
-    display:grid;grid-template-columns:1fr auto;gap:6px 24px;align-items:baseline;
-    padding:22px 0;border-bottom:1px solid var(--line);
-  }
-  .menu-item h4{font-family:'Zen Old Mincho',serif;font-weight:600;font-size:1.12rem;color:var(--ink);}
-  .menu-item .desc{grid-column:1;color:var(--ink-soft);font-size:.88rem;max-width:460px;}
-  .menu-item .price{
-    font-family:'Zen Old Mincho',serif;color:var(--terracotta-deep);font-size:1rem;white-space:nowrap;
-  }
-  .menu-note{
-    margin-top:28px;font-size:.82rem;color:var(--ink-soft);
-    border-left:2px solid var(--sage);padding:12px 18px;background:var(--paper-alt);
+  .hero-image{padding:0 48px 120px;}
+  .hero-image-frame{position:relative;width:100%;height:520px;border:1px solid var(--line);overflow:hidden;}
+  .hero-image-frame img{width:100%;height:100%;object-fit:cover;}
+  .hero-tag{
+    position:absolute;top:20px;left:20px;z-index:2;background:var(--bg);padding:8px 14px;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);
   }
 
-  /* visit */
-  .visit{background:var(--paper-alt);}
-  .visit-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;}
-  .visit-block{margin-bottom:34px;}
-  .visit-block .label{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:10px;font-weight:500;}
-  .visit-block .value{font-size:1.15rem;color:var(--ink);}
-  .visit-block .value.small{font-size:.95rem;color:var(--ink-soft);}
-  .hours-row{display:flex;justify-content:space-between;max-width:340px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.92rem;}
-  .visit-map{
-    border:1px solid var(--line);background:var(--paper);
-    min-height:360px;position:relative;overflow:hidden;
+  .aging{background:var(--dark);color:var(--ink-light);padding:110px 48px 120px;}
+  .aging-head{
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:80px;
+    border-bottom:1px solid var(--line-dark2);padding-bottom:24px;flex-wrap:wrap;gap:16px;
   }
-  .visit-map iframe{width:100%;height:100%;min-height:360px;border:0;display:block;filter:grayscale(.15) contrast(1.02);}
-  .visit-map-link{
-    display:block;margin-top:14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--terracotta-deep);text-align:right;
+  .aging-head h2{font-size:52px;letter-spacing:-.03em;margin:0;}
+  .aging-head .kanji{font-size:20px;color:var(--label-dark);}
+  .day-row{
+    display:grid;grid-template-columns:220px 1fr 1.2fr;gap:40px;align-items:baseline;
+    padding:34px 0;border-bottom:1px solid var(--line-dark);
   }
-  .visit-map-link a{border-bottom:1px solid currentColor;}
+  .day-num{font-size:64px;letter-spacing:-.04em;line-height:1;color:var(--ink-light);}
+  .day-title{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--label-dark);}
+  .day-body{font-size:15px;line-height:1.7;color:var(--muted-dark);margin:0;}
+  .aging-close{margin:64px 0 0;font-size:15px;line-height:1.8;color:var(--label-dark);max-width:52ch;}
 
-  /* gallery */
-  .gallery{background:var(--paper);}
-  .gallery-grid{
-    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;grid-template-rows:320px;gap:2px;
-    background:var(--line);border:1px solid var(--line);
-  }
-  .gallery-item{position:relative;overflow:hidden;background:var(--paper-alt);}
-  .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
-  .gallery-item:hover img{transform:scale(1.05);}
-  .gallery-cap{
-    position:absolute;left:0;right:0;bottom:0;padding:16px 18px;
-    background:linear-gradient(to top, rgba(43,41,37,.72), transparent);
-    color:#fff;font-size:.8rem;letter-spacing:.04em;
-  }
-  @media (max-width:860px){
-    .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,200px);}
+  .signature{padding:120px 48px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+  .signature-frame{position:relative;width:100%;height:560px;border:1px solid var(--line);overflow:hidden;}
+  .signature-frame img{width:100%;height:100%;object-fit:cover;}
+  .signature-label{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);margin-bottom:20px;}
+  .signature h2{font-size:56px;letter-spacing:-.035em;line-height:1.05;margin:0 0 28px;}
+  .signature p{font-size:16px;line-height:1.75;color:var(--muted);margin:0 0 20px;}
+  .signature-link{
+    display:inline-block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    border-bottom:1px solid var(--accent);padding-bottom:3px;margin-top:16px;
   }
 
-  /* footer */
-  footer{padding:56px 0 40px;border-top:1px solid var(--line);}
-  .footer-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
-  .footer-grid .brand{font-size:1.15rem;}
-  .footer-links{display:flex;gap:26px;font-size:.82rem;color:var(--ink-soft);}
-  .footer-links a:hover{color:var(--terracotta-deep);}
-  .footer-copy{margin-top:28px;font-size:.75rem;color:#a29c8f;letter-spacing:.03em;}
+  .menu{padding:100px 48px 120px;border-top:1px solid var(--line);}
+  .menu-grid{display:grid;grid-template-columns:1fr 2fr;gap:64px;}
+  .menu-grid h2{font-size:52px;letter-spacing:-.03em;margin:0 0 24px;}
+  .menu-grid > div:first-child p{font-size:15px;line-height:1.75;color:var(--muted);margin:0 0 16px;}
+  .menu-item{display:flex;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .menu-item .name{font-size:17px;font-weight:500;white-space:nowrap;}
+  .menu-item .note{font-size:16px;color:var(--label);font-style:italic;font-family:'Instrument Serif',serif;white-space:nowrap;}
+  .menu-item .leader{flex:1;border-bottom:1px dotted #B5AA92;transform:translateY(-4px);}
+  .menu-item .day{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+  .menu-footnote{font-size:13px;color:var(--label);margin:20px 0 0;line-height:1.7;}
 
-  @media (max-width:860px){
-    .hero-inner{grid-template-columns:1fr;gap:40px;}
-    .hero-photo{aspect-ratio:16/10;order:-1;}
-    nav ul{
-      position:fixed;top:73px;left:0;right:0;background:var(--paper);
-      flex-direction:column;padding:24px 28px;gap:0;border-bottom:1px solid var(--line);
-      transform:translateY(-140%);transition:transform .3s ease;
-    }
-    nav ul.open{transform:translateY(0);}
-    nav ul li{padding:14px 0;border-bottom:1px solid var(--line);}
+  .visit{background:var(--dark);color:var(--ink-light);padding:110px 48px;}
+  .visit-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr .9fr;gap:48px;align-items:start;}
+  .visit-label{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--label-dark);margin-bottom:20px;}
+  .visit-grid h2{font-size:56px;letter-spacing:-.035em;line-height:1.05;margin:0 0 28px;}
+  .tock-btn{
+    display:inline-block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-light);border:1px solid var(--label-dark);padding:16px 32px;transition:all .2s;
+  }
+  .tock-btn:hover{background:var(--ink-light);color:var(--dark);}
+  .visit-block{font-size:15px;line-height:2;color:var(--muted-dark);}
+  .visit-block .visit-label{margin-bottom:14px;}
+  .visit-block a{color:var(--ink-light);border-bottom:1px solid var(--label-dark);}
+  .visit-block a:hover{color:#fff;border-color:#fff;}
+  .visit-footer{
+    display:flex;justify-content:space-between;margin-top:100px;padding-top:24px;
+    border-top:1px solid var(--line-dark);font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--label-dark);flex-wrap:wrap;gap:10px;
+  }
+
+  @media (max-width:900px){
+    header{padding:22px 24px;}
+    nav{position:fixed;top:69px;left:0;right:0;background:var(--bg);flex-direction:column;
+      padding:20px 24px;gap:0;border-bottom:1px solid var(--line);transform:translateY(-140%);
+      transition:transform .3s ease;z-index:70;}
+    nav.open{transform:translateY(0);}
+    nav a{padding:12px 0;border-bottom:1px solid var(--line);}
     .nav-toggle{display:block;}
-    .sig-grid{grid-template-columns:1fr;}
-    .visit-grid{grid-template-columns:1fr;gap:40px;}
-    section{padding:64px 0;}
+    .wrap,.hero,.hero-image,.aging,.signature,.menu,.visit{padding-left:24px;padding-right:24px;}
+    .hero{padding-top:64px;padding-bottom:64px;}
+    .hero-bottom{align-items:flex-start;}
+    .hero-addr{text-align:left;}
+    .hero-image-frame{height:320px;}
+    .day-row,.signature,.menu-grid,.visit-grid{grid-template-columns:1fr;gap:24px;}
+    .signature{padding:64px 24px;}
+    .signature-frame{height:320px;}
+    .aging{padding:64px 24px 80px;}
+    .aging-head h2,.signature h2,.visit-grid h2{font-size:38px;}
+    .menu{padding:64px 24px 80px;}
+    .menu-item{flex-wrap:wrap;}
+    .menu-item .leader{display:none;}
+    .visit{padding:64px 24px;}
   }
 </style>
 </head>
 <body>
+<div class="grain"></div>
 
 <header>
-  <div class="nav">
-    <a href="#" class="brand">Yuubi <span>Inner Richmond · SF</span></a>
-    <nav>
-      <ul id="navList">
-        <li><a href="#signature">Signature</a></li>
-        <li><a href="#menu">Menu</a></li>
-        <li><a href="#visit">Visit</a></li>
-        <li><a href="tel:+14153862011">(415) 386-2011</a></li>
-      </ul>
-    </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  <div class="brand-row">
+    <span class="brand serif">Yuubi</span>
+    <span class="brand-kanji kanji">熟成鮨</span>
   </div>
+  <nav id="navList">
+    <a href="#aging">The Eighteen Days</a>
+    <a href="#menu">Menu</a>
+    <a href="#visit">Visit</a>
+    <a href="#visit" class="reserve">Reserve</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
 </header>
 
 <section class="hero">
-  <div class="hero-inner">
+  <div class="hero-meta-row">
+    <span>Day 01 ———————— Day 18</span>
+    <span>Inner Richmond, San Francisco</span>
+  </div>
+  <h1 class="serif">Nothing we serve is fresh. Everything we serve is ready.</h1>
+  <div class="hero-bottom">
+    <p>We age whole bluefin for eighteen days before a single cut reaches the counter. The fish sets the schedule. We keep it.</p>
+    <div class="hero-addr">501 Balboa Street<br>Mon–Fri 4:30–9pm · Sat–Sun 12–9pm</div>
+  </div>
+</section>
+
+<section class="hero-image">
+  <div class="hero-image-frame">
+    <img src="images/header-image.jpg" alt="Nigiri at the Yuubi counter">
+    <div class="hero-tag">Nigiri, hand-pressed daily</div>
+  </div>
+</section>
+
+<section class="aging" id="aging">
+  <div class="aging-head">
+    <h2 class="serif">The eighteen days</h2>
+    <span class="kanji">待つことも仕事</span>
+  </div>
+
+  <div class="day-row">
+    <div class="day-num serif">Day 01</div>
+    <div class="day-title">Arrival</div>
+    <p class="day-body">A whole bluefin is broken down within hours of landing, wiped dry, wrapped in sarashi cloth, and put to rest at two degrees.</p>
+  </div>
+  <div class="day-row">
+    <div class="day-num serif">Day 04</div>
+    <div class="day-title">Rest</div>
+    <p class="day-body">The paper is changed every morning. Moisture leaves the flesh slowly; nothing else is done, and nothing else should be.</p>
+  </div>
+  <div class="day-row">
+    <div class="day-num serif">Day 09</div>
+    <div class="day-title">The turn</div>
+    <p class="day-body">Enzymes begin their work. The flesh darkens half a shade and the aroma shifts from sea to something closer to stone fruit.</p>
+  </div>
+  <div class="day-row">
+    <div class="day-num serif">Day 14</div>
+    <div class="day-title">The watch</div>
+    <p class="day-body">The chef checks each loin daily by scent and touch. Most fish are called here. Only a few are asked to keep waiting.</p>
+  </div>
+  <div class="day-row">
+    <div class="day-num serif">Day 18</div>
+    <div class="day-title">Service</div>
+    <p class="day-body">The loin is unwrapped once, trimmed, and cut to order at the counter. What took eighteen days is gone in one evening.</p>
+  </div>
+
+  <p class="aging-close">Most tuna never make it to day eighteen. The ones that do are the reason this restaurant exists.</p>
+</section>
+
+<section class="signature">
+  <div class="signature-frame">
+    <img src="images/signature-toro-crop.jpg" alt="Aged o-toro nigiri, close">
+  </div>
+  <div>
+    <div class="signature-label">The signature · Day 18</div>
+    <h2 class="serif">Eighteen-day aged bluefin o-toro</h2>
+    <p>Aging trades brightness for depth. By day eighteen the fat has softened into the muscle, the water has gone, and what remains tastes less like the ocean and more like itself.</p>
+    <p>Nigiri, two pieces, $15. Sashimi, three pieces, $22.50. Order it at the sushi bar, no reservation required.</p>
+    <a href="#visit" class="signature-link">See hours &amp; address</a>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="menu-grid">
     <div>
-      <div class="hero-kicker">街坊日本餐廳 · Neighborhood Sushi & Kitchen</div>
-      <h1>Quiet craft, <em>seasonal</em> fish, a table in the Richmond.</h1>
-      <p>Yuubi is a neighborhood Japanese kitchen on Balboa Street — aged o-toro, hand-rolled nigiri, and a house curry that's become the quiet favorite of Inner Richmond.</p>
-      <div class="hero-actions">
-        <a href="#menu" class="btn btn-primary">View Menu</a>
-        <a href="tel:+14153862011" class="btn btn-ghost">Call to Reserve</a>
-      </div>
-      <div class="hero-meta">
-        <div>
-          <span class="label">Hours</span>
-          Mon–Fri 4:30–9pm · Sat–Sun 12–9pm
-        </div>
-        <div>
-          <span class="label">Address</span>
-          501 Balboa St, San Francisco
-        </div>
-        <div>
-          <span class="label">Follow</span>
-          <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a>
-        </div>
-      </div>
+      <h2 class="serif">Signature Cuts</h2>
+      <p>Nigiri and sashimi at the sushi bar. The aged fish is listed with its age.</p>
     </div>
-    <div class="hero-photo">
-      <img src="images/header-image.jpg" alt="Nigiri platter at Yuubi Japanese Restaurant" loading="eager">
-    </div>
-  </div>
-</section>
-
-<section class="gallery">
-  <div class="wrap">
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="images/header-image.jpg" alt="Chef's nigiri selection" loading="lazy">
-        <div class="gallery-cap">Nigiri, hand-pressed daily</div>
+    <div>
+      <div class="menu-item">
+        <span class="name">O-Toro</span>
+        <span class="note">18-day aged bluefin belly</span>
+        <span class="leader"></span>
+        <span class="day">2pc $15 / 3pc $22.50</span>
       </div>
-      <div class="gallery-item">
-        <img src="images/wagyu-tataki.jpg" alt="Wagyu beef tataki" loading="lazy">
-        <div class="gallery-cap">Wagyu Beef Tataki</div>
+      <div class="menu-item">
+        <span class="name">Chu-Toro</span>
+        <span class="note">dry-aged, medium fatty belly</span>
+        <span class="leader"></span>
+        <span class="day">2pc $10 / 3pc $15</span>
       </div>
-      <div class="gallery-item">
-        <img src="images/dragon-roll.jpg" alt="Dragon roll" loading="lazy">
-        <div class="gallery-cap">Dragon Roll</div>
+      <div class="menu-item">
+        <span class="name">Japanese Uni</span>
+        <span class="note">Hokkaido sea urchin</span>
+        <span class="leader"></span>
+        <span class="day">2pc $22 / sashimi $33</span>
       </div>
-      <div class="gallery-item">
-        <img src="images/hamachi-scallop.jpg" alt="Hamachi and scallop sashimi with chili ponzu" loading="lazy">
-        <div class="gallery-cap">Hamachi & Scallop, Chili Ponzu</div>
+      <div class="menu-item">
+        <span class="name">A5 Wagyu Nigiri</span>
+        <span class="note">hand-pressed</span>
+        <span class="leader"></span>
+        <span class="day">$23</span>
       </div>
+      <p class="menu-footnote">Prices and availability may change — ask your server for today's cuts. Full menu available in house.</p>
     </div>
-  </div>
-</section>
-
-<section class="signature" id="signature">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-kicker">Signature</div>
-      <h2>What Yuubi is known for</h2>
-      <p>Two dishes that quietly define the room — one built on patience, one on a spice blend the kitchen won't share.</p>
-    </div>
-    <div class="sig-grid">
-      <div class="sig-card">
-        <div class="sig-num">01</div>
-        <h3>Aged O-Toro <span style="color:var(--ink-soft);font-size:1rem;font-weight:400;">— 18-Day</span></h3>
-        <p>Bluefin tuna belly, dry-aged eighteen days to concentrate its natural sweetness and soften the fat. Served as nigiri or sashimi at the sushi bar.</p>
-        <div class="sig-tag">Nigiri 2pc $15 · Sashimi 3pc $22.50</div>
-      </div>
-      <div class="sig-card">
-        <div class="sig-num">02</div>
-        <h3>House Curry</h3>
-        <p>A recent addition and already the kitchen's quiet obsession — a slow-built spice base, deep and warming. Ask your server for today's preparation.</p>
-        <div class="sig-tag">Ask server for pricing</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="menu">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-kicker">Menu</div>
-      <h2>Selected dishes</h2>
-      <p>A working selection from our current menu. Full menu and daily specials available in house.</p>
-    </div>
-
-    <div class="menu-tabs" id="menuTabs">
-      <button class="menu-tab active" data-target="nigiri">Nigiri & Sashimi</button>
-      <button class="menu-tab" data-target="don">Chef's Don</button>
-      <button class="menu-tab" data-target="rolls">Signature Rolls</button>
-      <button class="menu-tab" data-target="apps">Appetizers</button>
-      <button class="menu-tab" data-target="noodles">Noodles & Entrée</button>
-    </div>
-
-    <div class="menu-panel active" id="nigiri">
-      <div class="menu-list">
-        <div class="menu-item"><h4>Blue Fin O-Toro (18-day aged)</h4><span class="price">2pc $15 / 3pc $22.50</span><div class="desc">Dry-aged bluefin tuna belly</div></div>
-        <div class="menu-item"><h4>Blue Fin Chu-Toro</h4><span class="price">2pc $10 / 3pc $15</span><div class="desc">Dry-aged bluefin tuna medium fatty belly</div></div>
-        <div class="menu-item"><h4>Japanese Uni</h4><span class="price">2pc $22 / sashimi $33</span><div class="desc">Hokkaido sea urchin</div></div>
-        <div class="menu-item"><h4>A5 Wagyu Nigiri</h4><span class="price">$23</span><div class="desc">A5 Japanese wagyu, hand-pressed</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="don">
-      <div class="menu-list">
-        <div class="menu-item"><h4>Toro Don</h4><span class="price">$35</span><div class="desc">Salmon belly, tuna belly, hamachi belly sashimi over rice</div></div>
-        <div class="menu-item"><h4>Omakase Don</h4><span class="price">$48</span><div class="desc">Chef's selection of the day's best sashimi</div></div>
-        <div class="menu-item"><h4>Hokkaido Don</h4><span class="price">$42</span><div class="desc">Scallop, sweet shrimp, uni, salted salmon roe</div></div>
-        <div class="menu-item"><h4>Chirashi</h4><span class="price">$25</span><div class="desc">Assorted sashimi over seasoned rice</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="rolls">
-      <div class="menu-list">
-        <div class="menu-item"><h4>Lion King</h4><span class="price">$17</span><div class="desc">California roll topped with seared salmon, scallion, tobiko, spicy mayo</div></div>
-        <div class="menu-item"><h4>501</h4><span class="price">$17</span><div class="desc">Tuna, avocado topped with hamachi, onion, crispy shallot</div></div>
-        <div class="menu-item"><h4>Toro Heaven</h4><span class="price">$17</span><div class="desc">Minced tuna belly topped with seared chu-toro, wasabi</div></div>
-        <div class="menu-item"><h4>Dragon</h4><span class="price">$17</span><div class="desc">Tempura shrimp topped with eel, avocado, tobiko</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="apps">
-      <div class="menu-list">
-        <div class="menu-item"><h4>Wagyu Beef Tataki</h4><span class="price">$16</span><div class="desc">Seared wagyu, garlic ponzu</div></div>
-        <div class="menu-item"><h4>Hamachi Kama</h4><span class="price">$16</span><div class="desc">Grilled yellowtail collar, spicy daikon ponzu</div></div>
-        <div class="menu-item"><h4>Chicken Karaage</h4><span class="price">$8</span><div class="desc">Japanese-style fried chicken</div></div>
-        <div class="menu-item"><h4>Gyoza (6pc)</h4><span class="price">$8</span><div class="desc">Pan-seared pork & vegetable dumplings</div></div>
-      </div>
-    </div>
-
-    <div class="menu-panel" id="noodles">
-      <div class="menu-list">
-        <div class="menu-item"><h4>Chashu Ramen</h4><span class="price">$16</span><div class="desc">House-braised chashu, rich tonkotsu broth</div></div>
-        <div class="menu-item"><h4>Salmon Teriyaki</h4><span class="price">$19</span><div class="desc">Grilled salmon, soup, salad, rice</div></div>
-        <div class="menu-item"><h4>Steak Teriyaki</h4><span class="price">$21</span><div class="desc">Grilled steak, soup, salad, rice</div></div>
-        <div class="menu-item"><h4>Unagi Fried Rice</h4><span class="price">$21</span><div class="desc">Eel and salmon skin fried rice</div></div>
-      </div>
-    </div>
-
-    <div class="menu-note">Prices and availability may change. Menu adapted from current listings — please confirm daily specials with your server.</div>
   </div>
 </section>
 
 <section class="visit" id="visit">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-kicker">Visit</div>
-      <h2>Find us on Balboa Street</h2>
+  <div class="visit-grid">
+    <div>
+      <div class="visit-label">Visit</div>
+      <h2 class="serif">A sushi bar and a few tables on Balboa Street.</h2>
+      <a href="tel:+14153862011" class="tock-btn">Call to Reserve</a>
     </div>
-    <div class="visit-grid">
-      <div>
-        <div class="visit-block">
-          <span class="label">Address</span>
-          <div class="value">501 Balboa St<br>San Francisco, CA 94118</div>
-          <div class="value small">Inner Richmond</div>
-        </div>
-        <div class="visit-block">
-          <span class="label">Phone</span>
-          <div class="value"><a href="tel:+14153862011">(415) 386-2011</a></div>
-        </div>
-        <div class="visit-block">
-          <span class="label">Hours</span>
-          <div class="hours-row"><span>Monday – Friday</span><span>4:30pm – 9:00pm</span></div>
-          <div class="hours-row"><span>Saturday – Sunday</span><span>12:00pm – 9:00pm</span></div>
-        </div>
-        <div class="visit-block">
-          <span class="label">Instagram</span>
-          <div class="value"><a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a></div>
-        </div>
-      </div>
-      <div>
-        <div class="visit-map">
-          <iframe
-            src="https://www.google.com/maps?q=Yuubi+Japanese+Restaurant,501+Balboa+St,San+Francisco,CA+94118&output=embed"
-            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            title="Map showing Yuubi Japanese Restaurant at 501 Balboa St, San Francisco"></iframe>
-        </div>
-        <div class="visit-map-link"><a href="https://www.google.com/maps/search/?api=1&query=501+Balboa+St+San+Francisco+CA+94118" target="_blank" rel="noopener">Open in Google Maps →</a></div>
-      </div>
+    <div class="visit-block">
+      <div class="visit-label">Address</div>
+      501 Balboa Street<br>Inner Richmond<br>San Francisco, CA 94118
     </div>
+    <div class="visit-block">
+      <div class="visit-label">Hours</div>
+      Monday – Friday<br>4:30pm – 9:00pm<br><br>Saturday – Sunday<br>12:00pm – 9:00pm
+    </div>
+    <div class="visit-block">
+      <div class="visit-label">Contact</div>
+      <a href="tel:+14153862011">(415) 386-2011</a><br>
+      <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a>
+    </div>
+  </div>
+  <div class="visit-footer">
+    <span>Yuubi © 2026</span>
+    <span>Day 01 ———————— Day 18</span>
   </div>
 </section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <a href="#" class="brand">Yuubi</a>
-      <div class="footer-links">
-        <a href="tel:+14153862011">(415) 386-2011</a>
-        <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.google.com/maps/search/?api=1&query=501+Balboa+St+San+Francisco+CA+94118" target="_blank" rel="noopener">Directions</a>
-      </div>
-    </div>
-    <div class="footer-copy">© 2026 Yuubi Japanese Restaurant · 501 Balboa St, San Francisco, CA 94118</div>
-  </div>
-</footer>
 
 <script>
   const navToggle = document.getElementById('navToggle');
   const navList = document.getElementById('navList');
   navToggle.addEventListener('click', () => navList.classList.toggle('open'));
   navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
-
-  const tabs = document.querySelectorAll('.menu-tab');
-  const panels = document.querySelectorAll('.menu-panel');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById(tab.dataset.target).classList.add('active');
-    });
-  });
 </script>
 
 </body>
