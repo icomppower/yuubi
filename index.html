@@ -67,6 +67,7 @@
       radial-gradient(circle at 10% 85%, rgba(138,154,130,.18), transparent 55%),
       var(--paper);
     overflow:hidden;
+    padding:64px 0;
   }
   .hero::before{
     content:"";
@@ -78,15 +79,27 @@
     opacity:.35;
     mask-image:linear-gradient(to bottom, black, transparent 75%);
   }
-  .hero-inner{position:relative;max-width:var(--max);margin:0 auto;padding:0 28px;width:100%;}
+  .hero-inner{
+    position:relative;max-width:var(--max);margin:0 auto;padding:0 28px;width:100%;
+    display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;
+  }
   .hero-kicker{
     font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;
     color:var(--terracotta-deep);margin-bottom:22px;font-weight:500;
   }
-  .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.12;max-width:820px;color:var(--ink);}
+  .hero h1{font-size:clamp(2.4rem,4.6vw,3.8rem);line-height:1.14;color:var(--ink);}
   .hero h1 em{font-style:normal;color:var(--sage-deep);}
-  .hero p{margin-top:26px;max-width:520px;color:var(--ink-soft);font-size:1.05rem;}
+  .hero p{margin-top:26px;max-width:480px;color:var(--ink-soft);font-size:1.05rem;}
   .hero-actions{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
+  .hero-photo{
+    position:relative;border-radius:2px;overflow:hidden;
+    aspect-ratio:4/5;box-shadow:0 30px 60px -25px rgba(43,41,37,.35);
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;}
+  .hero-photo::after{
+    content:"";position:absolute;inset:0;border:1px solid rgba(250,247,242,.25);
+    pointer-events:none;
+  }
   .btn{
     display:inline-flex;align-items:center;gap:10px;
     padding:14px 30px;border-radius:2px;
@@ -164,18 +177,32 @@
   .hours-row{display:flex;justify-content:space-between;max-width:340px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.92rem;}
   .visit-map{
     border:1px solid var(--line);background:var(--paper);
-    min-height:360px;display:flex;align-items:center;justify-content:center;
-    position:relative;overflow:hidden;
+    min-height:360px;position:relative;overflow:hidden;
   }
-  .visit-map::before{
-    content:"";position:absolute;inset:0;
-    background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size:38px 38px;opacity:.5;
+  .visit-map iframe{width:100%;height:100%;min-height:360px;border:0;display:block;filter:grayscale(.15) contrast(1.02);}
+  .visit-map-link{
+    display:block;margin-top:14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--terracotta-deep);text-align:right;
   }
-  .visit-map-pin{position:relative;text-align:center;}
-  .visit-map-pin .dot{width:14px;height:14px;border-radius:50%;background:var(--terracotta);margin:0 auto 14px;box-shadow:0 0 0 8px rgba(193,122,93,.18);}
-  .visit-map-pin span{font-size:.85rem;color:var(--ink-soft);}
-  .visit-map-pin a{margin-top:10px;display:inline-block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta-deep);border-bottom:1px solid currentColor;}
+  .visit-map-link a{border-bottom:1px solid currentColor;}
+
+  /* gallery */
+  .gallery{background:var(--paper);}
+  .gallery-grid{
+    display:grid;grid-template-columns:2fr 1fr 1fr 1fr;grid-template-rows:320px;gap:2px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  .gallery-item{position:relative;overflow:hidden;background:var(--paper-alt);}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+  .gallery-item:hover img{transform:scale(1.05);}
+  .gallery-cap{
+    position:absolute;left:0;right:0;bottom:0;padding:16px 18px;
+    background:linear-gradient(to top, rgba(43,41,37,.72), transparent);
+    color:#fff;font-size:.8rem;letter-spacing:.04em;
+  }
+  @media (max-width:860px){
+    .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,200px);}
+  }
 
   /* footer */
   footer{padding:56px 0 40px;border-top:1px solid var(--line);}
@@ -186,6 +213,8 @@
   .footer-copy{margin-top:28px;font-size:.75rem;color:#a29c8f;letter-spacing:.03em;}
 
   @media (max-width:860px){
+    .hero-inner{grid-template-columns:1fr;gap:40px;}
+    .hero-photo{aspect-ratio:16/10;order:-1;}
     nav ul{
       position:fixed;top:73px;left:0;right:0;background:var(--paper);
       flex-direction:column;padding:24px 28px;gap:0;border-bottom:1px solid var(--line);
@@ -219,25 +248,53 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-kicker">街坊日本餐廳 · Neighborhood Sushi & Kitchen</div>
-    <h1>Quiet craft, <em>seasonal</em> fish, a table in the Richmond.</h1>
-    <p>Yuubi is a neighborhood Japanese kitchen on Balboa Street — aged o-toro, hand-rolled nigiri, and a house curry that's become the quiet favorite of Inner Richmond.</p>
-    <div class="hero-actions">
-      <a href="#menu" class="btn btn-primary">View Menu</a>
-      <a href="tel:+14153862011" class="btn btn-ghost">Call to Reserve</a>
+    <div>
+      <div class="hero-kicker">街坊日本餐廳 · Neighborhood Sushi & Kitchen</div>
+      <h1>Quiet craft, <em>seasonal</em> fish, a table in the Richmond.</h1>
+      <p>Yuubi is a neighborhood Japanese kitchen on Balboa Street — aged o-toro, hand-rolled nigiri, and a house curry that's become the quiet favorite of Inner Richmond.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">View Menu</a>
+        <a href="tel:+14153862011" class="btn btn-ghost">Call to Reserve</a>
+      </div>
+      <div class="hero-meta">
+        <div>
+          <span class="label">Hours</span>
+          Mon–Fri 4:30–9pm · Sat–Sun 12–9pm
+        </div>
+        <div>
+          <span class="label">Address</span>
+          501 Balboa St, San Francisco
+        </div>
+        <div>
+          <span class="label">Follow</span>
+          <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a>
+        </div>
+      </div>
     </div>
-    <div class="hero-meta">
-      <div>
-        <span class="label">Hours</span>
-        Mon–Fri 4:30–9pm · Sat–Sun 12–9pm
+    <div class="hero-photo">
+      <img src="images/header-image.jpg" alt="Nigiri platter at Yuubi Japanese Restaurant" loading="eager">
+    </div>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="wrap">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="images/header-image.jpg" alt="Chef's nigiri selection" loading="lazy">
+        <div class="gallery-cap">Nigiri, hand-pressed daily</div>
       </div>
-      <div>
-        <span class="label">Address</span>
-        501 Balboa St, San Francisco
+      <div class="gallery-item">
+        <img src="images/wagyu-tataki.jpg" alt="Wagyu beef tataki" loading="lazy">
+        <div class="gallery-cap">Wagyu Beef Tataki</div>
       </div>
-      <div>
-        <span class="label">Follow</span>
-        <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a>
+      <div class="gallery-item">
+        <img src="images/dragon-roll.jpg" alt="Dragon roll" loading="lazy">
+        <div class="gallery-cap">Dragon Roll</div>
+      </div>
+      <div class="gallery-item">
+        <img src="images/hamachi-scallop.jpg" alt="Hamachi and scallop sashimi with chili ponzu" loading="lazy">
+        <div class="gallery-cap">Hamachi & Scallop, Chili Ponzu</div>
       </div>
     </div>
   </div>
@@ -359,12 +416,14 @@
           <div class="value"><a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a></div>
         </div>
       </div>
-      <div class="visit-map">
-        <div class="visit-map-pin">
-          <div class="dot"></div>
-          <span>501 Balboa St, San Francisco</span><br>
-          <a href="https://www.google.com/maps/search/?api=1&query=501+Balboa+St+San+Francisco+CA+94118" target="_blank" rel="noopener">Open in Google Maps</a>
+      <div>
+        <div class="visit-map">
+          <iframe
+            src="https://www.google.com/maps?q=Yuubi+Japanese+Restaurant,501+Balboa+St,San+Francisco,CA+94118&output=embed"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Map showing Yuubi Japanese Restaurant at 501 Balboa St, San Francisco"></iframe>
         </div>
+        <div class="visit-map-link"><a href="https://www.google.com/maps/search/?api=1&query=501+Balboa+St+San+Francisco+CA+94118" target="_blank" rel="noopener">Open in Google Maps →</a></div>
       </div>
     </div>
   </div>
