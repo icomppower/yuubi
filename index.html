@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuubi | Japanese Restaurant — Inner Richmond, San Francisco</title>
+<meta name="description" content="Yuubi Japanese Restaurant — neighborhood sushi bar in Inner Richmond, San Francisco. Aged o-toro, house curry, and chef's selection don.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf7f2;
+    --paper-alt:#f2ede4;
+    --ink:#2b2925;
+    --ink-soft:#5a564e;
+    --sage:#8a9a82;
+    --sage-deep:#6b7d63;
+    --terracotta:#c17a5d;
+    --terracotta-deep:#a8613f;
+    --line:#e2dcd1;
+    --max:1160px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight:300;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.brand{
+    font-family:'Zen Old Mincho', serif;
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
+  section{padding:96px 0;}
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,247,242,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:var(--max);margin:0 auto;}
+  .brand{font-size:1.5rem;color:var(--ink);display:flex;align-items:baseline;gap:8px;}
+  .brand span{font-family:'Noto Sans JP',sans-serif;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--sage-deep);font-weight:500;}
+  nav ul{display:flex;gap:38px;list-style:none;}
+  nav ul li a{font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);transition:color .2s;}
+  nav ul li a:hover{color:var(--terracotta-deep);}
+  .nav-toggle{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);}
+
+  /* hero */
+  .hero{
+    position:relative;
+    min-height:88vh;
+    display:flex;
+    align-items:center;
+    background:
+      radial-gradient(circle at 85% 15%, rgba(193,122,93,.14), transparent 55%),
+      radial-gradient(circle at 10% 85%, rgba(138,154,130,.18), transparent 55%),
+      var(--paper);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:.35;
+    mask-image:linear-gradient(to bottom, black, transparent 75%);
+  }
+  .hero-inner{position:relative;max-width:var(--max);margin:0 auto;padding:0 28px;width:100%;}
+  .hero-kicker{
+    font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--terracotta-deep);margin-bottom:22px;font-weight:500;
+  }
+  .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.12;max-width:820px;color:var(--ink);}
+  .hero h1 em{font-style:normal;color:var(--sage-deep);}
+  .hero p{margin-top:26px;max-width:520px;color:var(--ink-soft);font-size:1.05rem;}
+  .hero-actions{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 30px;border-radius:2px;
+    font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
+    transition:all .25s;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--terracotta);color:#fff;}
+  .btn-primary:hover{background:var(--terracotta-deep);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+  .hero-meta{
+    display:flex;gap:48px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+  .hero-meta div{font-size:.82rem;}
+  .hero-meta .label{display:block;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-deep);font-size:.68rem;margin-bottom:6px;}
+
+  /* section headers */
+  .section-head{margin-bottom:56px;max-width:640px;}
+  .section-kicker{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--terracotta-deep);margin-bottom:14px;font-weight:500;}
+  .section-head h2{font-size:clamp(1.9rem,3.4vw,2.6rem);color:var(--ink);}
+  .section-head p{margin-top:16px;color:var(--ink-soft);}
+
+  /* signature */
+  .signature{background:var(--paper-alt);}
+  .sig-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--line);border:1px solid var(--line);}
+  .sig-card{background:var(--paper);padding:52px;position:relative;}
+  .sig-num{font-family:'Zen Old Mincho',serif;font-size:.85rem;color:var(--sage-deep);letter-spacing:.1em;}
+  .sig-card h3{font-size:1.7rem;margin:18px 0 14px;color:var(--ink);}
+  .sig-card p{color:var(--ink-soft);font-size:.95rem;max-width:400px;}
+  .sig-tag{
+    display:inline-block;margin-top:22px;font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--terracotta-deep);border-top:1px solid var(--line);padding-top:16px;
+  }
+
+  /* menu */
+  .menu-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:44px;border-bottom:1px solid var(--line);padding-bottom:0;}
+  .menu-tab{
+    background:none;border:none;cursor:pointer;
+    padding:12px 4px;margin-right:32px;
+    font-family:'Noto Sans JP',sans-serif;font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-soft);position:relative;transition:color .2s;
+  }
+  .menu-tab::after{
+    content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--terracotta);
+    transform:scaleX(0);transition:transform .25s;transform-origin:left;
+  }
+  .menu-tab.active{color:var(--ink);}
+  .menu-tab.active::after{transform:scaleX(1);}
+  .menu-panel{display:none;}
+  .menu-panel.active{display:block;animation:fade .4s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .menu-list{display:grid;gap:0;}
+  .menu-item{
+    display:grid;grid-template-columns:1fr auto;gap:6px 24px;align-items:baseline;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .menu-item h4{font-family:'Zen Old Mincho',serif;font-weight:600;font-size:1.12rem;color:var(--ink);}
+  .menu-item .desc{grid-column:1;color:var(--ink-soft);font-size:.88rem;max-width:460px;}
+  .menu-item .price{
+    font-family:'Zen Old Mincho',serif;color:var(--terracotta-deep);font-size:1rem;white-space:nowrap;
+  }
+  .menu-note{
+    margin-top:28px;font-size:.82rem;color:var(--ink-soft);
+    border-left:2px solid var(--sage);padding:12px 18px;background:var(--paper-alt);
+  }
+
+  /* visit */
+  .visit{background:var(--paper-alt);}
+  .visit-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;}
+  .visit-block{margin-bottom:34px;}
+  .visit-block .label{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:10px;font-weight:500;}
+  .visit-block .value{font-size:1.15rem;color:var(--ink);}
+  .visit-block .value.small{font-size:.95rem;color:var(--ink-soft);}
+  .hours-row{display:flex;justify-content:space-between;max-width:340px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.92rem;}
+  .visit-map{
+    border:1px solid var(--line);background:var(--paper);
+    min-height:360px;display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .visit-map::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:38px 38px;opacity:.5;
+  }
+  .visit-map-pin{position:relative;text-align:center;}
+  .visit-map-pin .dot{width:14px;height:14px;border-radius:50%;background:var(--terracotta);margin:0 auto 14px;box-shadow:0 0 0 8px rgba(193,122,93,.18);}
+  .visit-map-pin span{font-size:.85rem;color:var(--ink-soft);}
+  .visit-map-pin a{margin-top:10px;display:inline-block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta-deep);border-bottom:1px solid currentColor;}
+
+  /* footer */
+  footer{padding:56px 0 40px;border-top:1px solid var(--line);}
+  .footer-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .footer-grid .brand{font-size:1.15rem;}
+  .footer-links{display:flex;gap:26px;font-size:.82rem;color:var(--ink-soft);}
+  .footer-links a:hover{color:var(--terracotta-deep);}
+  .footer-copy{margin-top:28px;font-size:.75rem;color:#a29c8f;letter-spacing:.03em;}
+
+  @media (max-width:860px){
+    nav ul{
+      position:fixed;top:73px;left:0;right:0;background:var(--paper);
+      flex-direction:column;padding:24px 28px;gap:0;border-bottom:1px solid var(--line);
+      transform:translateY(-140%);transition:transform .3s ease;
+    }
+    nav ul.open{transform:translateY(0);}
+    nav ul li{padding:14px 0;border-bottom:1px solid var(--line);}
+    .nav-toggle{display:block;}
+    .sig-grid{grid-template-columns:1fr;}
+    .visit-grid{grid-template-columns:1fr;gap:40px;}
+    section{padding:64px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#" class="brand">Yuubi <span>Inner Richmond · SF</span></a>
+    <nav>
+      <ul id="navList">
+        <li><a href="#signature">Signature</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#visit">Visit</a></li>
+        <li><a href="tel:+14153862011">(415) 386-2011</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">街坊日本餐廳 · Neighborhood Sushi & Kitchen</div>
+    <h1>Quiet craft, <em>seasonal</em> fish, a table in the Richmond.</h1>
+    <p>Yuubi is a neighborhood Japanese kitchen on Balboa Street — aged o-toro, hand-rolled nigiri, and a house curry that's become the quiet favorite of Inner Richmond.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-primary">View Menu</a>
+      <a href="tel:+14153862011" class="btn btn-ghost">Call to Reserve</a>
+    </div>
+    <div class="hero-meta">
+      <div>
+        <span class="label">Hours</span>
+        Mon–Fri 4:30–9pm · Sat–Sun 12–9pm
+      </div>
+      <div>
+        <span class="label">Address</span>
+        501 Balboa St, San Francisco
+      </div>
+      <div>
+        <span class="label">Follow</span>
+        <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="signature" id="signature">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">Signature</div>
+      <h2>What Yuubi is known for</h2>
+      <p>Two dishes that quietly define the room — one built on patience, one on a spice blend the kitchen won't share.</p>
+    </div>
+    <div class="sig-grid">
+      <div class="sig-card">
+        <div class="sig-num">01</div>
+        <h3>Aged O-Toro <span style="color:var(--ink-soft);font-size:1rem;font-weight:400;">— 18-Day</span></h3>
+        <p>Bluefin tuna belly, dry-aged eighteen days to concentrate its natural sweetness and soften the fat. Served as nigiri or sashimi at the sushi bar.</p>
+        <div class="sig-tag">Nigiri 2pc $15 · Sashimi 3pc $22.50</div>
+      </div>
+      <div class="sig-card">
+        <div class="sig-num">02</div>
+        <h3>House Curry</h3>
+        <p>A recent addition and already the kitchen's quiet obsession — a slow-built spice base, deep and warming. Ask your server for today's preparation.</p>
+        <div class="sig-tag">Ask server for pricing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">Menu</div>
+      <h2>Selected dishes</h2>
+      <p>A working selection from our current menu. Full menu and daily specials available in house.</p>
+    </div>
+
+    <div class="menu-tabs" id="menuTabs">
+      <button class="menu-tab active" data-target="nigiri">Nigiri & Sashimi</button>
+      <button class="menu-tab" data-target="don">Chef's Don</button>
+      <button class="menu-tab" data-target="rolls">Signature Rolls</button>
+      <button class="menu-tab" data-target="apps">Appetizers</button>
+      <button class="menu-tab" data-target="noodles">Noodles & Entrée</button>
+    </div>
+
+    <div class="menu-panel active" id="nigiri">
+      <div class="menu-list">
+        <div class="menu-item"><h4>Blue Fin O-Toro (18-day aged)</h4><span class="price">2pc $15 / 3pc $22.50</span><div class="desc">Dry-aged bluefin tuna belly</div></div>
+        <div class="menu-item"><h4>Blue Fin Chu-Toro</h4><span class="price">2pc $10 / 3pc $15</span><div class="desc">Dry-aged bluefin tuna medium fatty belly</div></div>
+        <div class="menu-item"><h4>Japanese Uni</h4><span class="price">2pc $22 / sashimi $33</span><div class="desc">Hokkaido sea urchin</div></div>
+        <div class="menu-item"><h4>A5 Wagyu Nigiri</h4><span class="price">$23</span><div class="desc">A5 Japanese wagyu, hand-pressed</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="don">
+      <div class="menu-list">
+        <div class="menu-item"><h4>Toro Don</h4><span class="price">$35</span><div class="desc">Salmon belly, tuna belly, hamachi belly sashimi over rice</div></div>
+        <div class="menu-item"><h4>Omakase Don</h4><span class="price">$48</span><div class="desc">Chef's selection of the day's best sashimi</div></div>
+        <div class="menu-item"><h4>Hokkaido Don</h4><span class="price">$42</span><div class="desc">Scallop, sweet shrimp, uni, salted salmon roe</div></div>
+        <div class="menu-item"><h4>Chirashi</h4><span class="price">$25</span><div class="desc">Assorted sashimi over seasoned rice</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="rolls">
+      <div class="menu-list">
+        <div class="menu-item"><h4>Lion King</h4><span class="price">$17</span><div class="desc">California roll topped with seared salmon, scallion, tobiko, spicy mayo</div></div>
+        <div class="menu-item"><h4>501</h4><span class="price">$17</span><div class="desc">Tuna, avocado topped with hamachi, onion, crispy shallot</div></div>
+        <div class="menu-item"><h4>Toro Heaven</h4><span class="price">$17</span><div class="desc">Minced tuna belly topped with seared chu-toro, wasabi</div></div>
+        <div class="menu-item"><h4>Dragon</h4><span class="price">$17</span><div class="desc">Tempura shrimp topped with eel, avocado, tobiko</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="apps">
+      <div class="menu-list">
+        <div class="menu-item"><h4>Wagyu Beef Tataki</h4><span class="price">$16</span><div class="desc">Seared wagyu, garlic ponzu</div></div>
+        <div class="menu-item"><h4>Hamachi Kama</h4><span class="price">$16</span><div class="desc">Grilled yellowtail collar, spicy daikon ponzu</div></div>
+        <div class="menu-item"><h4>Chicken Karaage</h4><span class="price">$8</span><div class="desc">Japanese-style fried chicken</div></div>
+        <div class="menu-item"><h4>Gyoza (6pc)</h4><span class="price">$8</span><div class="desc">Pan-seared pork & vegetable dumplings</div></div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="noodles">
+      <div class="menu-list">
+        <div class="menu-item"><h4>Chashu Ramen</h4><span class="price">$16</span><div class="desc">House-braised chashu, rich tonkotsu broth</div></div>
+        <div class="menu-item"><h4>Salmon Teriyaki</h4><span class="price">$19</span><div class="desc">Grilled salmon, soup, salad, rice</div></div>
+        <div class="menu-item"><h4>Steak Teriyaki</h4><span class="price">$21</span><div class="desc">Grilled steak, soup, salad, rice</div></div>
+        <div class="menu-item"><h4>Unagi Fried Rice</h4><span class="price">$21</span><div class="desc">Eel and salmon skin fried rice</div></div>
+      </div>
+    </div>
+
+    <div class="menu-note">Prices and availability may change. Menu adapted from current listings — please confirm daily specials with your server.</div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">Visit</div>
+      <h2>Find us on Balboa Street</h2>
+    </div>
+    <div class="visit-grid">
+      <div>
+        <div class="visit-block">
+          <span class="label">Address</span>
+          <div class="value">501 Balboa St<br>San Francisco, CA 94118</div>
+          <div class="value small">Inner Richmond</div>
+        </div>
+        <div class="visit-block">
+          <span class="label">Phone</span>
+          <div class="value"><a href="tel:+14153862011">(415) 386-2011</a></div>
+        </div>
+        <div class="visit-block">
+          <span class="label">Hours</span>
+          <div class="hours-row"><span>Monday – Friday</span><span>4:30pm – 9:00pm</span></div>
+          <div class="hours-row"><span>Saturday – Sunday</span><span>12:00pm – 9:00pm</span></div>
+        </div>
+        <div class="visit-block">
+          <span class="label">Instagram</span>
+          <div class="value"><a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a></div>
+        </div>
+      </div>
+      <div class="visit-map">
+        <div class="visit-map-pin">
+          <div class="dot"></div>
+          <span>501 Balboa St, San Francisco</span><br>
+          <a href="https://www.google.com/maps/search/?api=1&query=501+Balboa+St+San+Francisco+CA+94118" target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <a href="#" class="brand">Yuubi</a>
+      <div class="footer-links">
+        <a href="tel:+14153862011">(415) 386-2011</a>
+        <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=501+Balboa+St+San+Francisco+CA+94118" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 Yuubi Japanese Restaurant · 501 Balboa St, San Francisco, CA 94118</div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navList = document.getElementById('navList');
+  navToggle.addEventListener('click', () => navList.classList.toggle('open'));
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
+
+  const tabs = document.querySelectorAll('.menu-tab');
+  const panels = document.querySelectorAll('.menu-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.target).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
