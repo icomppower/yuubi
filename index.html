@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%235E3229' stroke-width='3'%3E%3Ccircle cx='32' cy='32' r='28'/%3E%3Crect x='19' y='19' width='26' height='26' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%235E3229' stroke='none'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="menu-book.css">
 <style>
   :root{
     --bg:#DED6C3; --dark:#241D14;
@@ -48,9 +50,25 @@
   nav{display:flex;gap:36px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;}
   nav a{color:var(--ink);}
   nav a.reserve{color:var(--accent);border-bottom:1px solid var(--accent);padding-bottom:2px;}
+  nav .jp{font-family:'Shippori Mincho',serif;font-size:11px;color:var(--label);margin-left:6px;letter-spacing:.08em;}
+
+  .hanko{
+    display:inline-flex;align-items:center;justify-content:center;align-self:center;
+    width:32px;height:32px;background:var(--accent);color:#EDE4D2;border-radius:4px;
+    font-family:'Shippori Mincho',serif;writing-mode:vertical-rl;
+    font-size:12px;line-height:1;letter-spacing:.1em;user-select:none;
+  }
+  .vertical-jp{
+    writing-mode:vertical-rl;font-family:'Shippori Mincho',serif;
+    letter-spacing:.32em;color:var(--label);user-select:none;pointer-events:none;
+  }
+  .kamon{display:block;margin:0 auto;opacity:.85;}
   .nav-toggle{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);}
 
   .hero{padding:120px 48px 100px;position:relative;}
+  .hero .vertical-jp{
+    position:absolute;top:200px;right:72px;font-size:19px;max-height:440px;
+  }
   .hero-meta-row{
     display:flex;justify-content:space-between;font-size:12px;letter-spacing:.22em;
     text-transform:uppercase;color:var(--label);margin-bottom:56px;flex-wrap:wrap;gap:10px;
@@ -104,6 +122,23 @@
     border-bottom:1px solid var(--accent);padding-bottom:3px;margin-top:16px;
   }
 
+  .curry{
+    border-top:1px solid var(--line);padding:88px 48px;position:relative;
+    display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:baseline;
+  }
+  .curry .vertical-jp{position:absolute;top:88px;right:72px;font-size:16px;}
+  .curry-label{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);display:flex;gap:14px;align-items:center;}
+  .curry h2{font-size:44px;letter-spacing:-.03em;margin:0 0 20px;}
+  .curry h2 .kanji{display:block;font-size:18px;color:var(--accent);margin-top:12px;letter-spacing:.14em;}
+  .curry p{font-size:16px;line-height:1.75;color:var(--muted);margin:0;max-width:52ch;}
+  .curry .footnote{font-size:13px;color:var(--label);margin-top:16px;font-style:italic;font-family:'Instrument Serif',serif;}
+
+  .menubook{background:var(--dark);color:var(--ink-light);padding:110px 48px 120px;}
+  .menubook-head{text-align:center;margin-bottom:64px;}
+  .menubook-head .kanji{font-size:16px;color:var(--label-dark);letter-spacing:.4em;display:block;margin-bottom:16px;}
+  .menubook-head h2{font-size:52px;letter-spacing:-.03em;margin:0;}
+  .menubook-head p{font-size:14px;color:var(--muted-dark);margin:18px 0 0;letter-spacing:.06em;}
+
   .menu{padding:100px 48px 120px;border-top:1px solid var(--line);}
   .menu-grid{display:grid;grid-template-columns:1fr 2fr;gap:64px;}
   .menu-grid h2{font-size:52px;letter-spacing:-.03em;margin:0 0 24px;}
@@ -142,7 +177,12 @@
     nav.open{transform:translateY(0);}
     nav a{padding:12px 0;border-bottom:1px solid var(--line);}
     .nav-toggle{display:block;}
-    .wrap,.hero,.hero-image,.aging,.signature,.menu,.visit{padding-left:24px;padding-right:24px;}
+    .wrap,.hero,.hero-image,.aging,.signature,.menu,.visit,.curry,.menubook{padding-left:24px;padding-right:24px;}
+    .hero .vertical-jp,.curry .vertical-jp{display:none;}
+    .curry{grid-template-columns:1fr;gap:20px;padding-top:56px;padding-bottom:56px;}
+    .curry h2{font-size:34px;}
+    .menubook{padding-top:64px;padding-bottom:72px;}
+    .menubook-head h2{font-size:38px;}
     .hero{padding-top:64px;padding-bottom:64px;}
     .hero-bottom{align-items:flex-start;}
     .hero-addr{text-align:left;}
@@ -164,14 +204,15 @@
 
 <header>
   <div class="brand-row">
+    <span class="hanko" aria-hidden="true">優美</span>
     <span class="brand serif">Yuubi</span>
     <span class="brand-kanji kanji">熟成鮨</span>
   </div>
   <nav id="navList">
     <a href="#aging">The Eighteen Days</a>
-    <a href="#menu">Menu</a>
-    <a href="#visit">Visit</a>
-    <a href="#visit" class="reserve">Reserve</a>
+    <a href="#menu">Menu<span class="jp">メニュー</span></a>
+    <a href="#visit">Location<span class="jp">場所</span></a>
+    <a href="#visit" class="reserve">Reserve<span class="jp">予約</span></a>
   </nav>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
 </header>
@@ -179,8 +220,9 @@
 <section class="hero">
   <div class="hero-meta-row">
     <span>Day 01 ———————— Day 18</span>
-    <span>Inner Richmond, San Francisco</span>
+    <span>Inner Richmond, San Francisco · <span class="kanji">地元に愛される日本料理</span></span>
   </div>
+  <span class="vertical-jp" aria-hidden="true">美味しい瞬間を、あなたに。</span>
   <h1 class="serif">Nothing we serve is fresh. Everything we serve is ready.</h1>
   <div class="hero-bottom">
     <p>We age whole bluefin for eighteen days before a single cut reaches the counter. The fish sets the schedule. We keep it.</p>
@@ -235,7 +277,7 @@
     <img src="images/signature-toro-crop.jpg" alt="Aged o-toro nigiri, close">
   </div>
   <div>
-    <div class="signature-label">The signature · Day 18</div>
+    <div class="signature-label">The signature · Day 18 · <span class="kanji">十八日熟成 大トロ</span></div>
     <h2 class="serif">Eighteen-day aged bluefin o-toro</h2>
     <p>Aging trades brightness for depth. By day eighteen the fat has softened into the muscle, the water has gone, and what remains tastes less like the ocean and more like itself.</p>
     <p>Nigiri, two pieces, $15. Sashimi, three pieces, $22.50. Order it at the sushi bar, no reservation required.</p>
@@ -243,11 +285,31 @@
   </div>
 </section>
 
+<section class="curry">
+  <div>
+    <div class="curry-label"><span class="hanko" aria-hidden="true">優美</span> The other signature</div>
+  </div>
+  <div>
+    <h2 class="serif">House Curry<span class="kanji">自家製カレー</span></h2>
+    <p>The neighborhood's recent favorite — a rich, slow-built spice base, made in house. It shares nothing with the aged fish except the patience.</p>
+    <p class="footnote">Ask at the counter for today's preparation and price.</p>
+  </div>
+  <span class="vertical-jp" aria-hidden="true">自家製カレー</span>
+</section>
+
 <section class="menu" id="menu">
   <div class="menu-grid">
     <div>
       <h2 class="serif">Signature Cuts</h2>
+      <p class="kanji" style="font-size:15px;color:var(--accent);letter-spacing:.18em;margin:0 0 16px;">握り・刺身</p>
       <p>Nigiri and sashimi at the sushi bar. The aged fish is listed with its age.</p>
+      <svg class="kamon" width="44" height="44" viewBox="0 0 64 64" aria-hidden="true" style="margin:32px 0 0;">
+        <g fill="none" stroke="#5E3229" stroke-width="2.5">
+          <circle cx="32" cy="32" r="28"/>
+          <rect x="19" y="19" width="26" height="26" transform="rotate(45 32 32)"/>
+          <circle cx="32" cy="32" r="5" fill="#5E3229" stroke="none"/>
+        </g>
+      </svg>
     </div>
     <div>
       <div class="menu-item">
@@ -274,9 +336,18 @@
         <span class="leader"></span>
         <span class="day">$23</span>
       </div>
-      <p class="menu-footnote">Prices and availability may change — ask your server for today's cuts. Full menu available in house.</p>
+      <p class="menu-footnote">Prices and availability may change — ask your server for today's cuts. The full menu is in the book below.</p>
     </div>
   </div>
+</section>
+
+<section class="menubook" id="menubook">
+  <div class="menubook-head">
+    <span class="kanji">お品書き</span>
+    <h2 class="serif">The menu book</h2>
+    <p>Five pages, turned by hand — like everything else here.</p>
+  </div>
+  <div id="menuBook"></div>
 </section>
 
 <section class="visit" id="visit">
@@ -302,15 +373,19 @@
   </div>
   <div class="visit-footer">
     <span>Yuubi © 2026</span>
+    <span class="kanji" style="text-transform:none;letter-spacing:.24em;">優美日本料理 · サンフランシスコ</span>
     <span>Day 01 ———————— Day 18</span>
   </div>
 </section>
 
+<script src="menu-data.js"></script>
+<script src="menu-book.js"></script>
 <script>
   const navToggle = document.getElementById('navToggle');
   const navList = document.getElementById('navList');
   navToggle.addEventListener('click', () => navList.classList.toggle('open'));
   navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
+  MenuBook.mount(document.getElementById('menuBook'), YUUBI_MENU);
 </script>
 
 </body>
