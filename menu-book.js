@@ -1,25 +1,33 @@
 /* Yuubi Menu Book — reusable CSS-3D flip-book.
-   Usage: MenuBook.mount(document.querySelector('#menuBook'), YUUBI_MENU);
+   Usage: MenuBook.mount(el, YUUBI_MENU, {theme:'light'|'dark', big:true, lang:'en'|'jp', startSpread:0})
    Pure CSS rotateY/preserve-3d, no canvas — text stays selectable & crawlable.
    Navigation: prev/next buttons, tap left/right page, swipe on touch. */
 const MenuBook = (() => {
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-  function pageFace(page, folio, total) {
-    const items = page.items.map(it => `
+  function itemRow(it, lang) {
+    const jpMode = lang === 'jp' && it.jp;
+    const primary = jpMode ? it.jp : it.name;
+    const secondary = jpMode ? it.name : it.jp;
+    const note = (lang === 'jp' && it.noteJp) ? it.noteJp : it.note;
+    const price = (lang === 'jp' && it.priceJp) ? it.priceJp : it.price;
+    return `
       <div class="mb-item">
-        <span class="name">${esc(it.name)}</span>
-        ${it.jp ? `<span class="jp kanji">${esc(it.jp)}</span>` : ''}
+        <span class="name${jpMode ? ' kanji' : ''}">${esc(primary)}</span>
+        ${secondary ? `<span class="jp${jpMode ? '' : ' kanji'}">${esc(secondary)}</span>` : ''}
         <span class="leader"></span>
-        <span class="price">${esc(it.price)}</span>
-        ${it.note ? `<span class="note">${esc(it.note)}</span>` : ''}
-      </div>`).join('');
+        <span class="price">${esc(price)}</span>
+        ${note ? `<span class="note${lang === 'jp' ? ' kanji' : ''}">${esc(note)}</span>` : ''}
+      </div>`;
+  }
+
+  function pageFace(page, folio, total, lang) {
     return `
       <div class="mb-page-head">
         <span class="jp kanji">${esc(page.jp)}</span>
         <span class="en">${esc(page.en)}</span>
       </div>
-      ${items}
+      ${page.items.map(it => itemRow(it, lang)).join('')}
       <div class="mb-folio"><span>Yuubi · 優美</span><span>${folio} / ${total}</span></div>`;
   }
 
@@ -33,11 +41,13 @@ const MenuBook = (() => {
       <span class="mb-tagline">${esc(c.tagline)}</span>`;
   }
 
-  function visitFace(b) {
+  function visitFace(b, lang) {
+    const lines = (lang === 'jp' && b.linesJp) ? b.linesJp : b.lines;
+    const note = (lang === 'jp' && b.noteJp) ? b.noteJp : b.note;
     return `
       <span class="jp kanji">${esc(b.jp)}</span>
-      <div class="line">${b.lines.map(esc).join('<br>')}</div>
-      <span class="note">${esc(b.note)}</span>`;
+      <div class="line${lang === 'jp' ? ' kanji' : ''}">${lines.map(esc).join('<br>')}</div>
+      <span class="note${lang === 'jp' ? ' kanji' : ''}">${esc(note)}</span>`;
   }
 
   function colophonFace(c) {
@@ -46,22 +56,25 @@ const MenuBook = (() => {
       <span class="line">${esc(c.line)}</span>`;
   }
 
-  function mount(root, data) {
+  function mount(root, data, opts = {}) {
+    const lang = opts.lang === 'jp' ? 'jp' : 'en';
     const total = data.pages.length;
     // 4 sheets = 8 faces: cover | p1..p5 | visit | colophon
     const faces = [
       { html: `<div class="mbook-face front mb-dark mb-cover">${coverFace(data.cover)}</div>`,
-        back: `<div class="mbook-face back">${pageFace(data.pages[0], 1, total)}</div>` },
-      { html: `<div class="mbook-face front">${pageFace(data.pages[1], 2, total)}</div>`,
-        back: `<div class="mbook-face back">${pageFace(data.pages[2], 3, total)}</div>` },
-      { html: `<div class="mbook-face front">${pageFace(data.pages[3], 4, total)}</div>`,
-        back: `<div class="mbook-face back">${pageFace(data.pages[4], 5, total)}</div>` },
-      { html: `<div class="mbook-face front mb-visit">${visitFace(data.back)}</div>`,
+        back: `<div class="mbook-face back">${pageFace(data.pages[0], 1, total, lang)}</div>` },
+      { html: `<div class="mbook-face front">${pageFace(data.pages[1], 2, total, lang)}</div>`,
+        back: `<div class="mbook-face back">${pageFace(data.pages[2], 3, total, lang)}</div>` },
+      { html: `<div class="mbook-face front">${pageFace(data.pages[3], 4, total, lang)}</div>`,
+        back: `<div class="mbook-face back">${pageFace(data.pages[4], 5, total, lang)}</div>` },
+      { html: `<div class="mbook-face front mb-visit">${visitFace(data.back, lang)}</div>`,
         back: `<div class="mbook-face back mb-dark mb-colophon">${colophonFace(data.colophon)}</div>` }
     ];
     const sheets = faces.map(f => `<div class="mbook-sheet">${f.html}${f.back}</div>`).join('');
 
-    root.classList.add('mbook-wrap');
+    root.className = 'mbook-wrap'
+      + (opts.theme === 'dark' ? ' mb-theme-dark' : '')
+      + (opts.big ? ' mb-big' : '');
     root.innerHTML = `
       <div class="mbook-stage">
         <div class="mbook" data-spread="0">${sheets}</div>
@@ -80,7 +93,7 @@ const MenuBook = (() => {
     const indicator = root.querySelector('.mbook-indicator');
     const maxSpread = sheetEls.length; // 4
     const labels = ['表紙 · Cover', '握り・刺身 / 丼もの', '巻き寿司 / 前菜', '麺・定食 / 場所', '裏表紙 · Fin'];
-    let spread = 0;
+    let spread = Math.min(maxSpread, Math.max(0, opts.startSpread || 0));
 
     function render() {
       book.dataset.spread = spread;
@@ -113,7 +126,17 @@ const MenuBook = (() => {
       x0 = null;
     }, { passive: true });
 
-    render();
+    if (spread > 0) {
+      // land on startSpread without replaying flip animations
+      sheetEls.forEach(el => { el.style.transition = 'none'; });
+      book.style.transition = 'none';
+      render();
+      void book.offsetWidth;
+      sheetEls.forEach(el => { el.style.transition = ''; });
+      book.style.transition = '';
+    } else {
+      render();
+    }
     return { go, get spread() { return spread; } };
   }
 

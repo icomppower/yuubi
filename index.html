@@ -138,6 +138,15 @@
   .menubook-head .kanji{font-size:16px;color:var(--label-dark);letter-spacing:.4em;display:block;margin-bottom:16px;}
   .menubook-head h2{font-size:52px;letter-spacing:-.03em;margin:0;}
   .menubook-head p{font-size:14px;color:var(--muted-dark);margin:18px 0 0;letter-spacing:.06em;}
+  .mb-modes{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 48px;}
+  .mb-modes button{
+    background:none;border:1px solid var(--label-dark);color:var(--ink-light);font:inherit;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:12px 22px;cursor:pointer;transition:all .2s;
+  }
+  .mb-modes button:hover{border-color:var(--ink-light);}
+  .mb-modes button.active{background:#EDE4D2;color:var(--dark);border-color:#EDE4D2;}
+  .mb-modes .sep{width:1px;height:26px;background:var(--line-dark2);margin:0 8px;}
+  .mb-modes #mbLang{display:inline-flex;gap:12px;}
 
   .menu{padding:100px 48px 120px;border-top:1px solid var(--line);}
   .menu-grid{display:grid;grid-template-columns:1fr 2fr;gap:64px;}
@@ -347,6 +356,15 @@
     <h2 class="serif">The menu book</h2>
     <p>Five pages, turned by hand — like everything else here.</p>
   </div>
+  <div class="mb-modes" id="mbModes">
+    <button type="button" data-mode="v1" class="active">V1 · 淺色 Light</button>
+    <button type="button" data-mode="v2">V2 · 暗調 Noir</button>
+    <span class="sep" aria-hidden="true"></span>
+    <span id="mbLang">
+      <button type="button" data-lang="en" class="active">English</button>
+      <button type="button" data-lang="jp" class="kanji">日本語</button>
+    </span>
+  </div>
   <div id="menuBook"></div>
 </section>
 
@@ -385,7 +403,26 @@
   const navList = document.getElementById('navList');
   navToggle.addEventListener('click', () => navList.classList.toggle('open'));
   navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
-  MenuBook.mount(document.getElementById('menuBook'), YUUBI_MENU);
+
+  // Menu book: v1 (light, EN/日本語 switchable) ⇄ v2 (Noir, bigger), same page
+  let mbMode = 'v1', mbLangSel = 'en', mbBook = null;
+  const mbEl = document.getElementById('menuBook');
+  const mbLangEl = document.getElementById('mbLang');
+  function mbRender() {
+    const keep = mbBook ? mbBook.spread : 0;
+    mbBook = MenuBook.mount(mbEl, YUUBI_MENU, {
+      theme: mbMode === 'v2' ? 'dark' : 'light',
+      big: mbMode === 'v2',
+      lang: mbLangSel,
+      startSpread: keep
+    });
+    mbLangEl.style.display = mbMode === 'v1' ? 'inline-flex' : 'none';
+    document.querySelectorAll('#mbModes [data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === mbMode));
+    document.querySelectorAll('#mbLang [data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === mbLangSel));
+  }
+  document.querySelectorAll('#mbModes [data-mode]').forEach(b => b.addEventListener('click', () => { mbMode = b.dataset.mode; mbRender(); }));
+  document.querySelectorAll('#mbLang [data-lang]').forEach(b => b.addEventListener('click', () => { mbLangSel = b.dataset.lang; mbRender(); }));
+  mbRender();
 </script>
 
 </body>

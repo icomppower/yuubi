@@ -4,9 +4,20 @@
 .mbook-wrap{
   --mb-paper:#DED6C3; --mb-dark:#241D14; --mb-ink:#2B2216;
   --mb-muted:#4A4234; --mb-label:#7A6F5B; --mb-line:#C2B79E;
-  --mb-accent:#5E3229; --mb-cream:#EDE4D2;
+  --mb-accent:#5E3229; --mb-cream:#EDE4D2; --mb-dot:#B5AA92;
   max-width:920px;margin:0 auto;
 }
+/* v2 — bigger book, easier to flip and read (typography scales via cqw) */
+.mbook-wrap.mb-big{max-width:1240px;}
+/* v2 — 熟成暗調 Noir page theme */
+.mbook-wrap.mb-theme-dark{
+  --mb-paper:#2A2216; --mb-ink:#E4DCC9; --mb-muted:#B5AA92; --mb-label:#9C8F74;
+  --mb-line:#4A4234; --mb-accent:#C98A66; --mb-dot:#6A5F4A; --mb-dark:#171209;
+}
+.mbook-wrap.mb-theme-dark .mbook-face::before{mix-blend-mode:soft-light;opacity:.4;}
+.mbook-wrap.mb-theme-dark .mbook-face.front::after{background:linear-gradient(90deg,rgba(0,0,0,.35),transparent);}
+.mbook-wrap.mb-theme-dark .mbook-face.back::after{background:linear-gradient(-90deg,rgba(0,0,0,.35),transparent);}
+.mbook-wrap.mb-theme-dark .mb-hanko{background:#5E3229;}
 .mbook-stage{
   container-type:inline-size;
   perspective:2600px;
@@ -81,7 +92,7 @@
 .mb-item:last-of-type{border-bottom:none;}
 .mb-item .name{font-size:1.7cqw;font-weight:500;color:var(--mb-ink);white-space:nowrap;}
 .mb-item .jp{font-family:'Shippori Mincho',serif;font-size:1.25cqw;color:var(--mb-accent);white-space:nowrap;}
-.mb-item .leader{flex:1;border-bottom:1px dotted #B5AA92;transform:translateY(-.4cqw);min-width:2cqw;}
+.mb-item .leader{flex:1;border-bottom:1px dotted var(--mb-dot);transform:translateY(-.4cqw);min-width:2cqw;}
 .mb-item .price{font-size:1.3cqw;letter-spacing:.08em;color:var(--mb-accent);white-space:nowrap;}
 .mb-item .note{flex-basis:100%;font-family:'Instrument Serif',serif;font-style:italic;
   font-size:1.4cqw;color:var(--mb-label);margin-top:.35cqw;}
