@@ -31,7 +31,7 @@
   a:hover{color:var(--ink);}
   ::selection{background:var(--accent);color:var(--bg);}
   img{max-width:100%;display:block;}
-  .serif{font-family:'Instrument Serif',serif;font-weight:400;}
+  .serif{font-family:'Instrument Serif','Shippori Mincho',serif;font-weight:400;}
   .kanji{font-family:'Shippori Mincho',serif;font-weight:500;}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 48px;}
 
@@ -41,9 +41,16 @@
   }
 
   header{
-    display:flex;align-items:baseline;justify-content:space-between;
-    padding:28px 48px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:24px 48px;border-bottom:1px solid var(--line);
   }
+  .head-right{display:flex;align-items:center;gap:32px;}
+  .lang-switch{display:flex;border:1px solid var(--line);}
+  .lang-switch button{
+    background:none;border:none;font:inherit;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;padding:9px 14px;cursor:pointer;color:var(--label);transition:all .2s;
+  }
+  .lang-switch button.active{background:var(--ink);color:var(--bg);}
   .brand-row{display:flex;align-items:baseline;gap:14px;}
   .brand{font-size:28px;letter-spacing:-.02em;}
   .brand-kanji{font-size:14px;color:var(--label);}
@@ -63,6 +70,13 @@
     letter-spacing:.32em;color:var(--label);user-select:none;pointer-events:none;
   }
   .kamon{display:block;margin:0 auto;opacity:.85;}
+
+  /* Japanese-mode typography: no negative tracking, calmer sizes */
+  html[lang="ja"] .hero h1{font-size:clamp(34px,7vw,104px);letter-spacing:.02em;line-height:1.22;max-width:20ch;}
+  html[lang="ja"] .day-num{font-size:44px;letter-spacing:.02em;}
+  html[lang="ja"] .aging-head h2,html[lang="ja"] .signature h2,
+  html[lang="ja"] .visit-grid h2,html[lang="ja"] .curry h2,
+  html[lang="ja"] .menu-grid h2,html[lang="ja"] .menubook-head h2{letter-spacing:.02em;line-height:1.3;}
   .nav-toggle{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--ink);}
 
   .hero{padding:120px 48px 100px;position:relative;}
@@ -179,7 +193,10 @@
   }
 
   @media (max-width:900px){
-    header{padding:22px 24px;}
+    header{padding:16px 24px;}
+    .head-right{gap:14px;}
+    .brand-kanji{display:none;}
+    .lang-switch button{padding:8px 10px;}
     nav{position:fixed;top:69px;left:0;right:0;background:var(--bg);flex-direction:column;
       padding:20px 24px;gap:0;border-bottom:1px solid var(--line);transform:translateY(-140%);
       transition:transform .3s ease;z-index:70;}
@@ -217,68 +234,74 @@
     <span class="brand serif">Yuubi</span>
     <span class="brand-kanji kanji">熟成鮨</span>
   </div>
-  <nav id="navList">
-    <a href="#aging">The Eighteen Days</a>
-    <a href="#menu">Menu<span class="jp">メニュー</span></a>
-    <a href="#visit">Location<span class="jp">場所</span></a>
-    <a href="#visit" class="reserve">Reserve<span class="jp">予約</span></a>
-  </nav>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  <div class="head-right">
+    <nav id="navList">
+      <a href="#aging" data-jp="十八日の熟成">The Eighteen Days</a>
+      <a href="#menu" data-jp="メニュー<span class='jp'>Menu</span>">Menu<span class="jp">メニュー</span></a>
+      <a href="#visit" data-jp="場所<span class='jp'>Location</span>">Location<span class="jp">場所</span></a>
+      <a href="#visit" class="reserve" data-jp="予約<span class='jp'>Reserve</span>">Reserve<span class="jp">予約</span></a>
+    </nav>
+    <div class="lang-switch" id="langSwitch">
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="jp" class="kanji">日本語</button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
 </header>
 
 <section class="hero">
   <div class="hero-meta-row">
-    <span>Day 01 ———————— Day 18</span>
-    <span>Inner Richmond, San Francisco · <span class="kanji">地元に愛される日本料理</span></span>
+    <span data-jp="一日目 ———————— 十八日目">Day 01 ———————— Day 18</span>
+    <span data-jp="サンフランシスコ・インナーリッチモンド · <span class='kanji'>地元に愛される日本料理</span>">Inner Richmond, San Francisco · <span class="kanji">地元に愛される日本料理</span></span>
   </div>
   <span class="vertical-jp" aria-hidden="true">美味しい瞬間を、あなたに。</span>
-  <h1 class="serif">Nothing we serve is fresh. Everything we serve is ready.</h1>
+  <h1 class="serif" data-jp="うちに「新鮮」はありません。あるのは「食べごろ」だけです。">Nothing we serve is fresh. Everything we serve is ready.</h1>
   <div class="hero-bottom">
-    <p>We age whole bluefin for eighteen days before a single cut reaches the counter. The fish sets the schedule. We keep it.</p>
-    <div class="hero-addr">501 Balboa Street<br>Mon–Fri 4:30–9pm · Sat–Sun 12–9pm</div>
+    <p data-jp="本鮪を丸ごと十八日間熟成させてから、初めて包丁を入れます。予定を決めるのは魚。私たちはそれを守るだけです。">We age whole bluefin for eighteen days before a single cut reaches the counter. The fish sets the schedule. We keep it.</p>
+    <div class="hero-addr" data-jp="バルボア通り501<br>月〜金 4:30–9pm · 土日 12–9pm">501 Balboa Street<br>Mon–Fri 4:30–9pm · Sat–Sun 12–9pm</div>
   </div>
 </section>
 
 <section class="hero-image">
   <div class="hero-image-frame">
     <img src="images/header-image.jpg" alt="Nigiri at the Yuubi counter">
-    <div class="hero-tag">Nigiri, hand-pressed daily</div>
+    <div class="hero-tag" data-jp="握りは毎日、手で">Nigiri, hand-pressed daily</div>
   </div>
 </section>
 
 <section class="aging" id="aging">
   <div class="aging-head">
-    <h2 class="serif">The eighteen days</h2>
-    <span class="kanji">待つことも仕事</span>
+    <h2 class="serif" data-jp="十八日間">The eighteen days</h2>
+    <span class="kanji" data-jp="Waiting is also work">待つことも仕事</span>
   </div>
 
   <div class="day-row">
-    <div class="day-num serif">Day 01</div>
-    <div class="day-title">Arrival</div>
-    <p class="day-body">A whole bluefin is broken down within hours of landing, wiped dry, wrapped in sarashi cloth, and put to rest at two degrees.</p>
+    <div class="day-num serif" data-jp="一日目">Day 01</div>
+    <div class="day-title" data-jp="入荷">Arrival</div>
+    <p class="day-body" data-jp="水揚げから数時間のうちに一本を捌き、水気を拭き、晒し布に包んで二度の冷蔵庫で休ませます。">A whole bluefin is broken down within hours of landing, wiped dry, wrapped in sarashi cloth, and put to rest at two degrees.</p>
   </div>
   <div class="day-row">
-    <div class="day-num serif">Day 04</div>
-    <div class="day-title">Rest</div>
-    <p class="day-body">The paper is changed every morning. Moisture leaves the flesh slowly; nothing else is done, and nothing else should be.</p>
+    <div class="day-num serif" data-jp="四日目">Day 04</div>
+    <div class="day-title" data-jp="休ませる">Rest</div>
+    <p class="day-body" data-jp="紙は毎朝取り替えます。水分はゆっくりと抜けていく。それ以外は何もしない。何もしないことが仕事です。">The paper is changed every morning. Moisture leaves the flesh slowly; nothing else is done, and nothing else should be.</p>
   </div>
   <div class="day-row">
-    <div class="day-num serif">Day 09</div>
-    <div class="day-title">The turn</div>
-    <p class="day-body">Enzymes begin their work. The flesh darkens half a shade and the aroma shifts from sea to something closer to stone fruit.</p>
+    <div class="day-num serif" data-jp="九日目">Day 09</div>
+    <div class="day-title" data-jp="変わり目">The turn</div>
+    <p class="day-body" data-jp="酵素が働きはじめます。身の色はわずかに深まり、香りは海から、桃のような甘さへと変わります。">Enzymes begin their work. The flesh darkens half a shade and the aroma shifts from sea to something closer to stone fruit.</p>
   </div>
   <div class="day-row">
-    <div class="day-num serif">Day 14</div>
-    <div class="day-title">The watch</div>
-    <p class="day-body">The chef checks each loin daily by scent and touch. Most fish are called here. Only a few are asked to keep waiting.</p>
+    <div class="day-num serif" data-jp="十四日目">Day 14</div>
+    <div class="day-title" data-jp="見極め">The watch</div>
+    <p class="day-body" data-jp="毎日、香りと手触りで確かめます。多くはここで出番を迎え、さらに待たせるのはほんの一部だけ。">The chef checks each loin daily by scent and touch. Most fish are called here. Only a few are asked to keep waiting.</p>
   </div>
   <div class="day-row">
-    <div class="day-num serif">Day 18</div>
-    <div class="day-title">Service</div>
-    <p class="day-body">The loin is unwrapped once, trimmed, and cut to order at the counter. What took eighteen days is gone in one evening.</p>
+    <div class="day-num serif" data-jp="十八日目">Day 18</div>
+    <div class="day-title" data-jp="お出しする">Service</div>
+    <p class="day-body" data-jp="布を解くのは一度きり。整えて、カウンターで注文ごとに切りつけます。十八日かけたものが、一晩で消えていきます。">The loin is unwrapped once, trimmed, and cut to order at the counter. What took eighteen days is gone in one evening.</p>
   </div>
 
-  <p class="aging-close">Most tuna never make it to day eighteen. The ones that do are the reason this restaurant exists.</p>
+  <p class="aging-close" data-jp="十八日目までたどり着く鮪は、ごくわずか。その一本のために、この店はあります。">Most tuna never make it to day eighteen. The ones that do are the reason this restaurant exists.</p>
 </section>
 
 <section class="signature">
@@ -286,22 +309,22 @@
     <img src="images/signature-toro-crop.jpg" alt="Aged o-toro nigiri, close">
   </div>
   <div>
-    <div class="signature-label">The signature · Day 18 · <span class="kanji">十八日熟成 大トロ</span></div>
-    <h2 class="serif">Eighteen-day aged bluefin o-toro</h2>
-    <p>Aging trades brightness for depth. By day eighteen the fat has softened into the muscle, the water has gone, and what remains tastes less like the ocean and more like itself.</p>
-    <p>Nigiri, two pieces, $15. Sashimi, three pieces, $22.50. Order it at the sushi bar, no reservation required.</p>
-    <a href="#visit" class="signature-link">See hours &amp; address</a>
+    <div class="signature-label" data-jp="看板料理 · 十八日目 · <span class='kanji'>十八日熟成 大トロ</span>">The signature · Day 18 · <span class="kanji">十八日熟成 大トロ</span></div>
+    <h2 class="serif" data-jp="十八日熟成・本鮪の大トロ">Eighteen-day aged bluefin o-toro</h2>
+    <p data-jp="熟成は、鮮烈さと引き換えに深みを得る仕事。十八日目には脂が身に溶け込み、水分は抜け、海の味というより「その魚自身の味」になります。">Aging trades brightness for depth. By day eighteen the fat has softened into the muscle, the water has gone, and what remains tastes less like the ocean and more like itself.</p>
+    <p data-jp="握り2貫 $15。刺身3切 $22.50。カウンターでどうぞ。ご予約は不要です。">Nigiri, two pieces, $15. Sashimi, three pieces, $22.50. Order it at the sushi bar, no reservation required.</p>
+    <a href="#visit" class="signature-link" data-jp="営業時間・場所を見る">See hours &amp; address</a>
   </div>
 </section>
 
 <section class="curry">
   <div>
-    <div class="curry-label"><span class="hanko" aria-hidden="true">優美</span> The other signature</div>
+    <div class="curry-label"><span class="hanko" aria-hidden="true">優美</span> <span data-jp="もうひとつの看板">The other signature</span></div>
   </div>
   <div>
-    <h2 class="serif">House Curry<span class="kanji">自家製カレー</span></h2>
-    <p>The neighborhood's recent favorite — a rich, slow-built spice base, made in house. It shares nothing with the aged fish except the patience.</p>
-    <p class="footnote">Ask at the counter for today's preparation and price.</p>
+    <h2 class="serif" data-jp="自家製カレー<span class='kanji'>House Curry</span>">House Curry<span class="kanji">自家製カレー</span></h2>
+    <p data-jp="ご近所さんの最近のお気に入り。スパイスからじっくり仕込む、濃厚な自家製カレーです。熟成鮪と共通するのは、手間ひまだけ。">The neighborhood's recent favorite — a rich, slow-built spice base, made in house. It shares nothing with the aged fish except the patience.</p>
+    <p class="footnote" data-jp="本日の内容とお値段はスタッフまで。">Ask at the counter for today's preparation and price.</p>
   </div>
   <span class="vertical-jp" aria-hidden="true">自家製カレー</span>
 </section>
@@ -309,9 +332,9 @@
 <section class="menu" id="menu">
   <div class="menu-grid">
     <div>
-      <h2 class="serif">Signature Cuts</h2>
-      <p class="kanji" style="font-size:15px;color:var(--accent);letter-spacing:.18em;margin:0 0 16px;">握り・刺身</p>
-      <p>Nigiri and sashimi at the sushi bar. The aged fish is listed with its age.</p>
+      <h2 class="serif" data-jp="握り・刺身">Signature Cuts</h2>
+      <p class="kanji" style="font-size:15px;color:var(--accent);letter-spacing:.18em;margin:0 0 16px;" data-jp="Signature Cuts">握り・刺身</p>
+      <p data-jp="カウンターでお出しする握りと刺身。熟成ものには日数を添えて。">Nigiri and sashimi at the sushi bar. The aged fish is listed with its age.</p>
       <svg class="kamon" width="44" height="44" viewBox="0 0 64 64" aria-hidden="true" style="margin:32px 0 0;">
         <g fill="none" stroke="#5E3229" stroke-width="2.5">
           <circle cx="32" cy="32" r="28"/>
@@ -322,39 +345,39 @@
     </div>
     <div>
       <div class="menu-item">
-        <span class="name">O-Toro</span>
-        <span class="note">18-day aged bluefin belly</span>
+        <span class="name" data-jp="大トロ">O-Toro</span>
+        <span class="note" data-jp="十八日熟成・本鮪の大トロ">18-day aged bluefin belly</span>
         <span class="leader"></span>
-        <span class="day">2pc $15 / 3pc $22.50</span>
+        <span class="day" data-jp="握り2貫 $15 / 刺身3切 $22.50">2pc $15 / 3pc $22.50</span>
       </div>
       <div class="menu-item">
-        <span class="name">Chu-Toro</span>
-        <span class="note">dry-aged, medium fatty belly</span>
+        <span class="name" data-jp="中トロ">Chu-Toro</span>
+        <span class="note" data-jp="熟成本鮪・中トロ">dry-aged, medium fatty belly</span>
         <span class="leader"></span>
-        <span class="day">2pc $10 / 3pc $15</span>
+        <span class="day" data-jp="握り2貫 $10 / 刺身3切 $15">2pc $10 / 3pc $15</span>
       </div>
       <div class="menu-item">
-        <span class="name">Japanese Uni</span>
-        <span class="note">Hokkaido sea urchin</span>
+        <span class="name" data-jp="雲丹">Japanese Uni</span>
+        <span class="note" data-jp="北海道産うに">Hokkaido sea urchin</span>
         <span class="leader"></span>
-        <span class="day">2pc $22 / sashimi $33</span>
+        <span class="day" data-jp="握り2貫 $22 / 刺身 $33">2pc $22 / sashimi $33</span>
       </div>
       <div class="menu-item">
-        <span class="name">A5 Wagyu Nigiri</span>
-        <span class="note">hand-pressed</span>
+        <span class="name" data-jp="A5和牛握り">A5 Wagyu Nigiri</span>
+        <span class="note" data-jp="手握り">hand-pressed</span>
         <span class="leader"></span>
         <span class="day">$23</span>
       </div>
-      <p class="menu-footnote">Prices and availability may change — ask your server for today's cuts. The full menu is in the book below.</p>
+      <p class="menu-footnote" data-jp="価格・内容は変わることがあります。本日のおすすめはスタッフへ。全メニューは下のメニューブックでご覧ください。">Prices and availability may change — ask your server for today's cuts. The full menu is in the book below.</p>
     </div>
   </div>
 </section>
 
 <section class="menubook" id="menubook">
   <div class="menubook-head">
-    <span class="kanji">お品書き</span>
-    <h2 class="serif">The menu book</h2>
-    <p>Five pages, turned by hand — like everything else here.</p>
+    <span class="kanji" data-jp="Menu Book">お品書き</span>
+    <h2 class="serif" data-jp="お品書き">The menu book</h2>
+    <p data-jp="五枚のページを、手でめくって。この店の仕事と同じように。">Five pages, turned by hand — like everything else here.</p>
   </div>
   <div class="mb-modes" id="mbModes">
     <button type="button" data-mode="v1" class="active">V1 · 淺色 Light</button>
@@ -371,20 +394,20 @@
 <section class="visit" id="visit">
   <div class="visit-grid">
     <div>
-      <div class="visit-label">Visit</div>
-      <h2 class="serif">A sushi bar and a few tables on Balboa Street.</h2>
-      <a href="tel:+14153862011" class="tock-btn">Call to Reserve</a>
+      <div class="visit-label" data-jp="ご案内">Visit</div>
+      <h2 class="serif" data-jp="バルボア通りの鮨カウンターと、いくつかのテーブル。">A sushi bar and a few tables on Balboa Street.</h2>
+      <a href="tel:+14153862011" class="tock-btn" data-jp="お電話でご予約">Call to Reserve</a>
     </div>
     <div class="visit-block">
-      <div class="visit-label">Address</div>
+      <div class="visit-label" data-jp="住所">Address</div>
       501 Balboa Street<br>Inner Richmond<br>San Francisco, CA 94118
     </div>
     <div class="visit-block">
-      <div class="visit-label">Hours</div>
-      Monday – Friday<br>4:30pm – 9:00pm<br><br>Saturday – Sunday<br>12:00pm – 9:00pm
+      <div class="visit-label" data-jp="営業時間">Hours</div>
+      <span data-jp="月曜〜金曜<br>4:30pm – 9:00pm<br><br>土曜・日曜<br>12:00pm – 9:00pm">Monday – Friday<br>4:30pm – 9:00pm<br><br>Saturday – Sunday<br>12:00pm – 9:00pm</span>
     </div>
     <div class="visit-block">
-      <div class="visit-label">Contact</div>
+      <div class="visit-label" data-jp="連絡先">Contact</div>
       <a href="tel:+14153862011">(415) 386-2011</a><br>
       <a href="https://www.instagram.com/yuubisf/" target="_blank" rel="noopener">@yuubisf</a>
     </div>
@@ -392,7 +415,7 @@
   <div class="visit-footer">
     <span>Yuubi © 2026</span>
     <span class="kanji" style="text-transform:none;letter-spacing:.24em;">優美日本料理 · サンフランシスコ</span>
-    <span>Day 01 ———————— Day 18</span>
+    <span data-jp="一日目 ———————— 十八日目">Day 01 ———————— Day 18</span>
   </div>
 </section>
 
@@ -404,8 +427,8 @@
   navToggle.addEventListener('click', () => navList.classList.toggle('open'));
   navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
 
-  // Menu book: v1 (light, EN/日本語 switchable) ⇄ v2 (Noir, bigger), same page
-  let mbMode = 'v1', mbLangSel = 'en', mbBook = null;
+  // Menu book: v1 (light) ⇄ v2 (Noir, bigger), same page
+  let mbMode = 'v1', siteLang = 'en', mbBook = null;
   const mbEl = document.getElementById('menuBook');
   const mbLangEl = document.getElementById('mbLang');
   function mbRender() {
@@ -413,15 +436,28 @@
     mbBook = MenuBook.mount(mbEl, YUUBI_MENU, {
       theme: mbMode === 'v2' ? 'dark' : 'light',
       big: mbMode === 'v2',
-      lang: mbLangSel,
+      lang: siteLang,
       startSpread: keep
     });
     mbLangEl.style.display = mbMode === 'v1' ? 'inline-flex' : 'none';
     document.querySelectorAll('#mbModes [data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === mbMode));
-    document.querySelectorAll('#mbLang [data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === mbLangSel));
+    document.querySelectorAll('#mbLang [data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === siteLang));
   }
   document.querySelectorAll('#mbModes [data-mode]').forEach(b => b.addEventListener('click', () => { mbMode = b.dataset.mode; mbRender(); }));
-  document.querySelectorAll('#mbLang [data-lang]').forEach(b => b.addEventListener('click', () => { mbLangSel = b.dataset.lang; mbRender(); }));
+
+  // Site-wide EN / 日本語 — swaps every [data-jp] element and the menu book together
+  function setLang(l) {
+    siteLang = l;
+    document.querySelectorAll('[data-jp]').forEach(el => {
+      if (el.dataset.en === undefined) el.dataset.en = el.innerHTML;
+      el.innerHTML = l === 'jp' ? el.dataset.jp : el.dataset.en;
+    });
+    document.documentElement.lang = l === 'jp' ? 'ja' : 'en';
+    document.querySelectorAll('#langSwitch [data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+    mbRender();
+  }
+  document.querySelectorAll('#langSwitch [data-lang], #mbLang [data-lang]').forEach(b =>
+    b.addEventListener('click', () => setLang(b.dataset.lang)));
   mbRender();
 </script>
 
