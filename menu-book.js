@@ -1,4 +1,5 @@
-/* Yuubi Menu Book — reusable CSS-3D flip-book.
+/* Yuubi Menu Book — reusable CSS-3D flip-book, single-page mode
+   (one large page at a time; flipping folds the page away to the left).
    Usage: MenuBook.mount(el, YUUBI_MENU, {theme:'light'|'dark', big:true, lang:'en'|'jp', startSpread:0})
    Pure CSS rotateY/preserve-3d, no canvas — text stays selectable & crawlable.
    Navigation: prev/next buttons, tap left/right page, swipe on touch. */
@@ -59,18 +60,14 @@ const MenuBook = (() => {
   function mount(root, data, opts = {}) {
     const lang = opts.lang === 'jp' ? 'jp' : 'en';
     const total = data.pages.length;
-    // 4 sheets = 8 faces: cover | p1..p5 | visit | colophon
+    // single-page mode: one sheet per page, flips away to the left
     const faces = [
-      { html: `<div class="mbook-face front mb-dark mb-cover">${coverFace(data.cover)}</div>`,
-        back: `<div class="mbook-face back">${pageFace(data.pages[0], 1, total, lang)}</div>` },
-      { html: `<div class="mbook-face front">${pageFace(data.pages[1], 2, total, lang)}</div>`,
-        back: `<div class="mbook-face back">${pageFace(data.pages[2], 3, total, lang)}</div>` },
-      { html: `<div class="mbook-face front">${pageFace(data.pages[3], 4, total, lang)}</div>`,
-        back: `<div class="mbook-face back">${pageFace(data.pages[4], 5, total, lang)}</div>` },
-      { html: `<div class="mbook-face front mb-visit">${visitFace(data.back, lang)}</div>`,
-        back: `<div class="mbook-face back mb-dark mb-colophon">${colophonFace(data.colophon)}</div>` }
+      `<div class="mbook-face mb-dark mb-cover">${coverFace(data.cover)}</div>`,
+      ...data.pages.map((p, i) => `<div class="mbook-face">${pageFace(p, i + 1, total, lang)}</div>`),
+      `<div class="mbook-face mb-visit">${visitFace(data.back, lang)}</div>`,
+      `<div class="mbook-face mb-dark mb-colophon">${colophonFace(data.colophon)}</div>`
     ];
-    const sheets = faces.map(f => `<div class="mbook-sheet">${f.html}${f.back}</div>`).join('');
+    const sheets = faces.map(f => `<div class="mbook-sheet">${f}</div>`).join('');
 
     root.className = 'mbook-wrap'
       + (opts.theme === 'dark' ? ' mb-theme-dark' : '')
@@ -91,15 +88,20 @@ const MenuBook = (() => {
     const prevBtn = root.querySelector('.mb-prev');
     const nextBtn = root.querySelector('.mb-next');
     const indicator = root.querySelector('.mbook-indicator');
-    const maxSpread = sheetEls.length; // 4
-    const labels = ['表紙 · Cover', '握り・刺身 / 丼もの', '巻き寿司 / 前菜', '麺・定食 / 場所', '裏表紙 · Fin'];
+    const maxSpread = sheetEls.length - 1; // last page stays visible
+    const labels = [
+      '表紙 · Cover',
+      ...data.pages.map((p, i) => `${p.jp} · ${i + 1}/${total}`),
+      '場所・連絡 · Visit',
+      'ごちそうさま · Fin'
+    ];
     let spread = Math.min(maxSpread, Math.max(0, opts.startSpread || 0));
 
     function render() {
       book.dataset.spread = spread;
       sheetEls.forEach((el, i) => {
         el.classList.toggle('flipped', i < spread);
-        el.style.zIndex = i < spread ? i + 1 : maxSpread - i;
+        el.style.zIndex = i < spread ? i + 1 : sheetEls.length - i;
       });
       prevBtn.disabled = spread === 0;
       nextBtn.disabled = spread === maxSpread;

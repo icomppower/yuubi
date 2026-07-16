@@ -1,46 +1,41 @@
-/* Yuubi Menu Book — reusable CSS 3D flip-book component.
-   Requires the site fonts (Instrument Serif / Archivo / Shippori Mincho)
-   and the palette variables below (falls back to the Yuubi palette). */
+/* Yuubi Menu Book — reusable CSS 3D flip-book, SINGLE-PAGE mode.
+   One large portrait page at a time; flipping folds the page away to the left.
+   Requires the site fonts (Instrument Serif / Archivo / Shippori Mincho). */
 .mbook-wrap{
   --mb-paper:#DED6C3; --mb-dark:#241D14; --mb-ink:#2B2216;
   --mb-muted:#4A4234; --mb-label:#7A6F5B; --mb-line:#C2B79E;
   --mb-accent:#5E3229; --mb-cream:#EDE4D2; --mb-dot:#B5AA92;
-  max-width:920px;margin:0 auto;
+  max-width:660px;margin:0 auto;
 }
-/* v2 — bigger book, easier to flip and read (typography scales via cqw) */
-.mbook-wrap.mb-big{max-width:1240px;}
+/* v2 — bigger page, easier to flip and read (typography scales via cqw) */
+.mbook-wrap.mb-big{max-width:860px;}
 /* v2 — 熟成暗調 Noir page theme */
 .mbook-wrap.mb-theme-dark{
   --mb-paper:#2A2216; --mb-ink:#E4DCC9; --mb-muted:#B5AA92; --mb-label:#9C8F74;
   --mb-line:#4A4234; --mb-accent:#C98A66; --mb-dot:#6A5F4A; --mb-dark:#171209;
 }
 .mbook-wrap.mb-theme-dark .mbook-face::before{mix-blend-mode:soft-light;opacity:.4;}
-.mbook-wrap.mb-theme-dark .mbook-face.front::after{background:linear-gradient(90deg,rgba(0,0,0,.35),transparent);}
-.mbook-wrap.mb-theme-dark .mbook-face.back::after{background:linear-gradient(-90deg,rgba(0,0,0,.35),transparent);}
+.mbook-wrap.mb-theme-dark .mbook-face::after{background:linear-gradient(90deg,rgba(0,0,0,.35),transparent);}
 .mbook-wrap.mb-theme-dark .mb-hanko{background:#5E3229;}
+
 .mbook-stage{
   container-type:inline-size;
-  perspective:2600px;
+  perspective:2200px;
   width:100%;
-  aspect-ratio:10/7;
+  aspect-ratio:7/9;
   position:relative;
 }
-.mbook{
+.mbook{position:absolute;inset:0;transform-style:preserve-3d;}
+
+/* one sheet = one page, folds away around its left edge */
+.mbook-sheet{
   position:absolute;inset:0;
   transform-style:preserve-3d;
-  transition:transform .7s cubic-bezier(.4,.1,.2,1);
-}
-.mbook[data-spread="0"]{transform:translateX(-25%);}
-.mbook[data-spread="4"]{transform:translateX(25%);}
-
-.mbook-sheet{
-  position:absolute;left:50%;top:0;width:50%;height:100%;
-  transform-style:preserve-3d;
   transform-origin:left center;
-  transition:transform .9s cubic-bezier(.35,.05,.2,1);
+  transition:transform .8s cubic-bezier(.35,.05,.2,1);
   cursor:pointer;
 }
-.mbook-sheet.flipped{transform:rotateY(-180deg);}
+.mbook-sheet.flipped{transform:rotateY(-180deg);pointer-events:none;}
 
 .mbook-face{
   position:absolute;inset:0;
@@ -51,9 +46,9 @@
   border:1px solid var(--mb-line);
   color:var(--mb-ink);
   display:flex;flex-direction:column;
-  padding:6.5cqw 5cqw 5cqw;
+  padding:8cqw 7cqw 6cqw;
+  box-shadow:0 1px 0 rgba(36,29,20,.15);
 }
-.mbook-face.back{transform:rotateY(180deg);}
 .mbook-face.mb-dark{
   background:var(--mb-dark);border-color:#3A3226;color:var(--mb-cream);
 }
@@ -62,54 +57,53 @@
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.38 0 0 0 0 0.30 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-/* spine shadow */
-.mbook-face.front::after{content:"";position:absolute;top:0;bottom:0;left:0;width:9%;
-  background:linear-gradient(90deg,rgba(36,29,20,.16),transparent);pointer-events:none;}
-.mbook-face.back::after{content:"";position:absolute;top:0;bottom:0;right:0;width:9%;
-  background:linear-gradient(-90deg,rgba(36,29,20,.16),transparent);pointer-events:none;}
+/* binding shadow along the left edge */
+.mbook-face::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:7%;
+  background:linear-gradient(90deg,rgba(36,29,20,.14),transparent);pointer-events:none;
+}
 
 /* ---- cover ---- */
-.mb-cover{align-items:center;justify-content:center;text-align:center;gap:2.2cqw;}
-.mb-cover .mb-kicker{font-size:1.25cqw;letter-spacing:.28em;text-transform:uppercase;color:#8A7E66;}
-.mb-cover .mb-kanji{font-family:'Shippori Mincho',serif;font-size:8.5cqw;line-height:1.15;writing-mode:vertical-rl;letter-spacing:.18em;}
-.mb-cover .mb-name{font-family:'Instrument Serif',serif;font-size:4.4cqw;letter-spacing:.02em;}
-.mb-cover .mb-sub{font-family:'Shippori Mincho',serif;font-size:1.7cqw;letter-spacing:.5em;color:#B5AA92;}
-.mb-cover .mb-tagline{font-family:'Shippori Mincho',serif;font-size:1.35cqw;letter-spacing:.2em;color:#8A7E66;}
+.mb-cover{align-items:center;justify-content:center;text-align:center;gap:3.4cqw;}
+.mb-cover .mb-kicker{font-size:max(2cqw,10px);letter-spacing:.28em;text-transform:uppercase;color:#8A7E66;}
+.mb-cover .mb-kanji{font-family:'Shippori Mincho',serif;font-size:13cqw;line-height:1.15;writing-mode:vertical-rl;letter-spacing:.18em;}
+.mb-cover .mb-name{font-family:'Instrument Serif',serif;font-size:7cqw;letter-spacing:.02em;}
+.mb-cover .mb-sub{font-family:'Shippori Mincho',serif;font-size:max(2.6cqw,12px);letter-spacing:.5em;color:#B5AA92;}
+.mb-cover .mb-tagline{font-family:'Shippori Mincho',serif;font-size:max(2.2cqw,11px);letter-spacing:.2em;color:#8A7E66;}
 .mb-hanko{
   display:inline-flex;align-items:center;justify-content:center;
-  width:4.6cqw;height:4.6cqw;min-width:30px;min-height:30px;
+  width:7cqw;height:7cqw;min-width:32px;min-height:32px;
   background:var(--mb-accent);color:var(--mb-cream);border-radius:12%;
   font-family:'Shippori Mincho',serif;writing-mode:vertical-rl;
-  font-size:max(1.6cqw,11px);line-height:1;letter-spacing:.12em;
+  font-size:max(2.5cqw,12px);line-height:1;letter-spacing:.12em;
 }
 
 /* ---- category pages ---- */
 .mb-page-head{display:flex;align-items:baseline;justify-content:space-between;
-  border-bottom:1px solid var(--mb-line);padding-bottom:2.2cqw;margin-bottom:2.6cqw;gap:1cqw;}
-.mb-page-head .jp{font-family:'Shippori Mincho',serif;font-size:3.1cqw;letter-spacing:.1em;white-space:nowrap;}
-.mb-page-head .en{font-size:1.15cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--mb-label);text-align:right;}
-.mb-item{display:flex;align-items:baseline;gap:1.2cqw;padding:1.55cqw 0;border-bottom:1px solid var(--mb-line);}
+  border-bottom:1px solid var(--mb-line);padding-bottom:3.4cqw;margin-bottom:4cqw;gap:2cqw;}
+.mb-page-head .jp{font-family:'Shippori Mincho',serif;font-size:max(5cqw,20px);letter-spacing:.1em;white-space:nowrap;}
+.mb-page-head .en{font-size:max(1.8cqw,9px);letter-spacing:.2em;text-transform:uppercase;color:var(--mb-label);text-align:right;}
+.mb-item{display:flex;flex-wrap:wrap;align-items:baseline;gap:2cqw;padding:2.6cqw 0;border-bottom:1px solid var(--mb-line);}
 .mb-item:last-of-type{border-bottom:none;}
-.mb-item .name{font-size:1.7cqw;font-weight:500;color:var(--mb-ink);white-space:nowrap;}
-.mb-item .jp{font-family:'Shippori Mincho',serif;font-size:1.25cqw;color:var(--mb-accent);white-space:nowrap;}
-.mb-item .leader{flex:1;border-bottom:1px dotted var(--mb-dot);transform:translateY(-.4cqw);min-width:2cqw;}
-.mb-item .price{font-size:1.3cqw;letter-spacing:.08em;color:var(--mb-accent);white-space:nowrap;}
+.mb-item .name{font-size:max(2.9cqw,13px);font-weight:500;color:var(--mb-ink);white-space:nowrap;}
+.mb-item .jp{font-family:'Shippori Mincho',serif;font-size:max(2.2cqw,11px);color:var(--mb-accent);white-space:nowrap;}
+.mb-item .leader{flex:1;border-bottom:1px dotted var(--mb-dot);transform:translateY(-.6cqw);min-width:3cqw;}
+.mb-item .price{font-size:max(2.3cqw,11px);letter-spacing:.08em;color:var(--mb-accent);white-space:nowrap;}
 .mb-item .note{flex-basis:100%;font-family:'Instrument Serif',serif;font-style:italic;
-  font-size:1.4cqw;color:var(--mb-label);margin-top:.35cqw;}
-.mb-item{flex-wrap:wrap;}
+  font-size:max(2.4cqw,12px);color:var(--mb-label);margin-top:.5cqw;}
 .mb-folio{margin-top:auto;display:flex;justify-content:space-between;
-  font-size:1.05cqw;letter-spacing:.22em;text-transform:uppercase;color:var(--mb-label);padding-top:2cqw;}
+  font-size:max(1.7cqw,9px);letter-spacing:.22em;text-transform:uppercase;color:var(--mb-label);padding-top:3cqw;}
 
 /* ---- back page (visit) ---- */
-.mb-visit{justify-content:center;gap:2cqw;text-align:center;align-items:center;}
-.mb-visit .jp{font-family:'Shippori Mincho',serif;font-size:2.8cqw;letter-spacing:.14em;}
-.mb-visit .line{font-size:1.45cqw;line-height:2;color:var(--mb-muted);}
-.mb-visit .note{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.3cqw;color:var(--mb-label);max-width:32cqw;}
+.mb-visit{justify-content:center;gap:3.4cqw;text-align:center;align-items:center;}
+.mb-visit .jp{font-family:'Shippori Mincho',serif;font-size:max(4.4cqw,18px);letter-spacing:.14em;}
+.mb-visit .line{font-size:max(2.5cqw,12px);line-height:2.1;color:var(--mb-muted);}
+.mb-visit .note{font-family:'Instrument Serif',serif;font-style:italic;font-size:max(2.2cqw,11px);color:var(--mb-label);max-width:56cqw;}
 
-/* ---- colophon (outside back cover) ---- */
-.mb-colophon{align-items:center;justify-content:center;gap:2.4cqw;text-align:center;}
-.mb-colophon .kanji{font-family:'Shippori Mincho',serif;font-size:2.2cqw;letter-spacing:.3em;color:#B5AA92;}
-.mb-colophon .line{font-size:1.2cqw;letter-spacing:.26em;color:#8A7E66;}
+/* ---- colophon (final page) ---- */
+.mb-colophon{align-items:center;justify-content:center;gap:4cqw;text-align:center;}
+.mb-colophon .kanji{font-family:'Shippori Mincho',serif;font-size:max(3.4cqw,15px);letter-spacing:.3em;color:#B5AA92;}
+.mb-colophon .line{font-size:max(2cqw,10px);letter-spacing:.26em;color:#8A7E66;}
 
 /* ---- controls ---- */
 .mbook-controls{
@@ -122,11 +116,10 @@
 }
 .mbook-controls button:hover:not(:disabled){background:var(--mb-cream);color:var(--mb-dark);}
 .mbook-controls button:disabled{opacity:.3;cursor:default;}
-.mbook-indicator{color:#8A7E66;min-width:11ch;text-align:center;}
+.mbook-indicator{color:#8A7E66;min-width:13ch;text-align:center;}
 .mbook-hint{margin-top:14px;text-align:center;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8A7E66;}
 
 @media (max-width:640px){
-  .mbook-stage{aspect-ratio:10/8.2;}
-  .mbook-controls{gap:14px;}
+  .mbook-controls{gap:12px;flex-wrap:wrap;}
   .mbook-controls button{padding:10px 16px;}
 }
